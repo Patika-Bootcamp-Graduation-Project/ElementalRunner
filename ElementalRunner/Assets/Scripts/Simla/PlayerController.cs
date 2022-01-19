@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float forwardMovementSpeed = 1.0f;
+    [SerializeField] private float forwardMovementSpeed = 5.0f;
     [SerializeField] private float jumpSpeed = 0.1f;
     [SerializeField] private Rigidbody rb;
 
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButton(0))
         {
             rb.isKinematic = true;
-            transform.Translate(0, jumpSpeed, forwardMovementSpeed * Time.deltaTime * Time.deltaTime);
+            transform.Translate(0, jumpSpeed, forwardMovementSpeed * Time.deltaTime);
         }
     }
 }

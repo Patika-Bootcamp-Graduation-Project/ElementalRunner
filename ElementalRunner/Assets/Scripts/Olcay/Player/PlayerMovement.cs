@@ -14,7 +14,10 @@ namespace Olcay
 
         private void ForwardMovement()
         {
-            transform.position += Vector3.forward * Time.deltaTime * speed;
+            //transform.position += Vector3.forward * Time.deltaTime * speed;
+            transform.Translate(Vector3.forward * Time.deltaTime * speed);
+
+            //transform.localScale += new Vector3(0.1f, 0.1f, 0.1f)*Time.deltaTime;
         }
     }
 }

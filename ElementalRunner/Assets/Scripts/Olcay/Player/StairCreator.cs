@@ -23,7 +23,7 @@ namespace Olcay
                 if (timer >= instantiateCD)
                 {
                     var pos = transform.position;
-                    GameObject stair = Instantiate(stairPre, new Vector3(pos.x, pos.y-0.25f, pos.z+1f),
+                    GameObject stair = Instantiate(stairPre, new Vector3(pos.x, pos.y, pos.z),
                         Quaternion.identity);
                     Destroy(stair, 2f);
                     timer -= 0.2f;

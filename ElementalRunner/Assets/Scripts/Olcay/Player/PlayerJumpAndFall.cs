@@ -29,7 +29,7 @@ namespace Olcay
             }
             else
             {
-                if (!waitBeforeFall && transform.position.y > floorPosY + 1f)
+                if (!waitBeforeFall && transform.position.y > floorPosY)
                 {
                     fallTimer += Time.deltaTime;
                     if (fallTimer >= fallCD)
@@ -43,11 +43,11 @@ namespace Olcay
 
         private void Fall()
         {
-            if (transform.position.y > floorPosY + 1f )
+            if (transform.position.y > floorPosY )
             {
-                transform.position -= Vector3.down * Time.deltaTime * -9.8f;
+                transform.position += Vector3.down * Time.deltaTime * +9.8f;
             }
-            else if (transform.position.y <= floorPosY + 1f )
+            else if (transform.position.y <= floorPosY )
             {
                 waitBeforeFall = false;
             }
