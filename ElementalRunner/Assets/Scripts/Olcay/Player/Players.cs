@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -16,11 +17,14 @@ namespace Olcay
         private GameObject boyPlayer;
         private bool isGirlActive;
 
+        public static event Action<bool> playerChanged;
+
         private void Awake()
         {
             girlPlayer = Instantiate(girlPrefab, transform.position, transform.rotation);
             girlPlayer.transform.parent = this.gameObject.transform;
             isGirlActive = true;
+            playerChanged?.Invoke(isGirlActive);
 
             boyPlayer = Instantiate(boyPrefab, Vector3.zero, Quaternion.identity);
             boyPlayer.SetActive(false);
@@ -82,6 +86,7 @@ namespace Olcay
                     girlPlayer.transform.position=Vector3.zero;
                     girlPlayer.SetActive(false);
                     isGirlActive = false;
+                    playerChanged?.Invoke(isGirlActive);
                 }
                 else
                 {
@@ -92,6 +97,7 @@ namespace Olcay
                     boyPlayer.transform.position=Vector3.zero;
                     boyPlayer.SetActive(false);
                     isGirlActive = true;
+                    playerChanged?.Invoke(isGirlActive);
                 }
                 
             }
