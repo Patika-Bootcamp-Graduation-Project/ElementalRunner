@@ -1,5 +1,4 @@
-using System;
-using UnityEditor.AssetImporters;
+using System.Collections;
 using UnityEngine;
 
 namespace Olcay
@@ -8,6 +7,11 @@ namespace Olcay
     {
         [SerializeField] private GameObject boyPrefab;
         [SerializeField] private GameObject girlPrefab;
+        
+        private float timer = 0f;
+        private float instantiateCD = 0f;
+        
+        
         private GameObject girlPlayer;
         private GameObject boyPlayer;
         private bool isGirlActive;
@@ -21,7 +25,50 @@ namespace Olcay
             boyPlayer = Instantiate(boyPrefab, Vector3.zero, Quaternion.identity);
             boyPlayer.SetActive(false);
         }
+        private void Update()
+        {
+            GenerateStairs();
+        }
 
+        #region StairsGenerateAndSetActiveFalse
+        private void GenerateStairs()
+        {
+            if (Input.GetMouseButton(0))
+            {
+                timer += Time.deltaTime;
+                
+                if (timer >= instantiateCD)
+                {
+                    var pos = transform.position;
+                    if (isGirlActive)
+                    {
+                        GameObject stair = ObjectPooler.Instance.SpawnFromPool("WaterStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
+                            Quaternion.identity);
+                        StartCoroutine(SetActiveFalseRoutine(stair));
+                    }
+                    else
+                    {
+                        GameObject stair = ObjectPooler.Instance.SpawnFromPool("FireStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
+                            Quaternion.identity);
+                        StartCoroutine(SetActiveFalseRoutine(stair));
+                        
+                    }
+
+                    timer -= 0.2f;
+
+                }
+            }
+        }
+
+        private IEnumerator SetActiveFalseRoutine(GameObject stair)
+        {
+            yield return new WaitForSeconds(2f);
+            stair.transform.position=Vector3.zero;
+            stair.SetActive(false);
+        }
+        #endregion
+
+        #region PlayerSwapWithGateInTrigger
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Gate"))
@@ -49,7 +96,7 @@ namespace Olcay
                 
             }
         }
-
+        #endregion
     }
 
 }
