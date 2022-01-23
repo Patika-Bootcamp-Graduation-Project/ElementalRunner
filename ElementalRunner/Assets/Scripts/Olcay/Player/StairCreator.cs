@@ -27,11 +27,6 @@ namespace Olcay
                     GameObject stair = ObjectPooler.Instance.SpawnFromPool("WaterStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
                         Quaternion.identity);
                     StartCoroutine(SetActiveFalseRoutine(stair));
-                    //stair.SetActive(false);
-                    //stair.transform.position = Vector3.zero;
-                    /*GameObject stair = Instantiate(stairPre, new Vector3(pos.x, pos.y, pos.z),
-                        Quaternion.identity);*/
-                    
                     timer -= 0.2f;
                 }
             }
