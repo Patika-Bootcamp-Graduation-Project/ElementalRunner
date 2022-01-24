@@ -6,9 +6,9 @@ namespace Simla
 {
     public class SpawnManager : MonoSingleton<SpawnManager>
     {
-        public void SpawnStair(string tag, Vector3 position, Quaternion rotation)
+        public GameObject SpawnStair(string tag, Vector3 position, Quaternion rotation)
         {
-            ObjectPooler.Instance.SpawnFromPool(tag, position, rotation);
+            return ObjectPooler.Instance.SpawnFromPool(tag, position, rotation);
         }
     }
 }

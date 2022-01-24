@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Simla;
 
 namespace Olcay
 {
@@ -17,7 +18,7 @@ namespace Olcay
         private GameObject boyPlayer;
         private bool isGirlActive;
 
-        public static event Action<bool> playerChanged;
+        public static event Action<bool> playerChanged; //Observer
 
         private void Awake()
         {
@@ -46,16 +47,15 @@ namespace Olcay
                     var pos = transform.position;
                     if (isGirlActive)
                     {
-                        GameObject stair = ObjectPooler.Instance.SpawnFromPool("WaterStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
+                        GameObject stair = SpawnManager.Instance.SpawnStair("WaterStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
                     else
                     {
-                        GameObject stair = ObjectPooler.Instance.SpawnFromPool("FireStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
+                        GameObject stair = SpawnManager.Instance.SpawnStair("FireStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
-                        
                     }
 
                     timer -= 0.2f;
