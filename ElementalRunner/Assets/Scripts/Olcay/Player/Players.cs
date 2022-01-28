@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Olcay.Managers;
 using Simla;
 using UnityEngine;
 
@@ -9,14 +10,16 @@ namespace Olcay.Player
     {
         [SerializeField] private GameObject boyPrefab;
         [SerializeField] private GameObject girlPrefab;
-        
+
         private float timer = 0f;
         private readonly float instantiateCD = 0f;
-        
-        
+
+
         private GameObject girlPlayer;
         private GameObject boyPlayer;
         private bool isGirlActive;
+        [SerializeField] private bool isFinish = false;
+        [SerializeField] private float startScale;
 
         public static event Action<bool> playerChanged; //Observer
 
@@ -29,37 +32,56 @@ namespace Olcay.Player
 
             boyPlayer = Instantiate(boyPrefab, Vector3.zero, Quaternion.identity);
             boyPlayer.SetActive(false);
+
+            startScale = gameObject.transform.localScale.x;
         }
+
         private void Update()
         {
             GenerateStairs();
         }
 
         #region StairsGenerateAndSetActiveFalse
+
         private void GenerateStairs()
         {
             if (Input.GetMouseButton(0))
             {
                 timer += Time.deltaTime;
-                
+
                 if (timer >= instantiateCD)
                 {
                     var pos = transform.position;
                     if (isGirlActive)
                     {
-                        GameObject stair = SpawnManager.Instance.SpawnStair("WaterStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
+                        GameObject stair = SpawnManager.Instance.SpawnStair("WaterStairs",
+                            new Vector3(pos.x, pos.y + 0.01f, pos.z),
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
                     else
                     {
-                        GameObject stair = SpawnManager.Instance.SpawnStair("FireStairs",new Vector3(pos.x, pos.y+0.01f, pos.z),
+                        GameObject stair = SpawnManager.Instance.SpawnStair("FireStairs",
+                            new Vector3(pos.x, pos.y + 0.01f, pos.z),
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
-                    transform.localScale -= new Vector3(0.05f, 0.05f, 0.05f); //every stair will decrease players scale 0.05 or we can change this value with gamesettings
-                    timer -= 0.2f;
 
+                    transform.localScale -=
+                        new Vector3(0.05f, 0.05f,
+                            0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
+                    if (gameObject.transform.localScale.x <= startScale && !isFinish) //fail olmasın zıplayamasın.
+                    {
+                        GameManager.Instance.Failed(); //its will be change with UI Manager.
+                    }
+                    else if (gameObject.transform.localScale.x <= startScale && isFinish)
+                    {
+                        //mini oyun ile ilgili bağlantı.
+                        //current stair çarpanına göre bir score increase işlemi olcak. --> observer(static event Action)
+                        GameManager.Instance.CurrentScoreAtFinish(6); //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
+                    }
+
+                    timer -= 0.2f;
                 }
             }
         }
@@ -67,12 +89,14 @@ namespace Olcay.Player
         private IEnumerator SetActiveFalseRoutine(GameObject stair)
         {
             yield return new WaitForSeconds(2f);
-            stair.transform.position=Vector3.zero;
+            stair.transform.position = Vector3.zero;
             stair.SetActive(false);
         }
+
         #endregion
 
         #region PlayerSwapWithGateInTrigger
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Gate"))
@@ -82,8 +106,8 @@ namespace Olcay.Player
                     boyPlayer.SetActive(true);
                     boyPlayer.transform.position = transform.position;
                     boyPlayer.transform.parent = gameObject.transform;
-                
-                    girlPlayer.transform.position=Vector3.zero;
+
+                    girlPlayer.transform.position = Vector3.zero;
                     girlPlayer.SetActive(false);
                     isGirlActive = false;
                     playerChanged?.Invoke(isGirlActive);
@@ -93,16 +117,20 @@ namespace Olcay.Player
                     girlPlayer.SetActive(true);
                     girlPlayer.transform.position = transform.position;
                     girlPlayer.transform.parent = gameObject.transform;
-                
-                    boyPlayer.transform.position=Vector3.zero;
+
+                    boyPlayer.transform.position = Vector3.zero;
                     boyPlayer.SetActive(false);
                     isGirlActive = true;
                     playerChanged?.Invoke(isGirlActive);
                 }
-                
+            }
+            else if (other.gameObject.CompareTag("Finish"))
+            {
+                isFinish = true;
+                //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
             }
         }
+
         #endregion
     }
-
 }

@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LoseWin : MonoBehaviour
 {
     private float startScale;
+    public int score=0;
 
     [SerializeField] private ScaleChanger scaleChanger;
 
@@ -27,9 +26,9 @@ public class LoseWin : MonoBehaviour
                 Debug.Log("Win");
             }
 
-            if(scaleChanger.score > PlayerPrefs.GetInt("HighScore", 0))
+            if(score > PlayerPrefs.GetInt("HighScore", 0))
             {
-                PlayerPrefs.SetInt("HighScore", scaleChanger.score);
+                PlayerPrefs.SetInt("HighScore", score);
             }
             Debug.Log(PlayerPrefs.GetInt("HighScore", 0));
         }

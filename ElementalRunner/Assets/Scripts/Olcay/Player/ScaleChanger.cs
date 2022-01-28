@@ -1,4 +1,5 @@
 using System;
+using Olcay.Managers;
 using Olcay.Player;
 using Olcay.Objectives;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class ScaleChanger : MonoBehaviour
 {
     [SerializeField] private bool isGirlActive;
 
-    public int score = 0;
+    
     private void Awake()
     {
         Players.playerChanged += ChangeCurrentPlayer;
@@ -25,21 +26,25 @@ public class ScaleChanger : MonoBehaviour
         {
             case "Water" when isGirlActive:
                 transform.localScale += new Vector3(0.2f,0.2f,0.2f);
-                score += 10;
+                //score += 10;
+                GameManager.Instance.ChangeScore(+10);
                 break;
             case "Fire" when isGirlActive:
                 transform.localScale -= new Vector3(0.2f,0.2f,0.2f);
-                score -= 10;
+                //score -= 10;
+                GameManager.Instance.ChangeScore(-10);
                 break;
             case "Fire" when !isGirlActive:
                 transform.localScale += new Vector3(0.2f,0.2f,0.2f);
-                score += 10;
+                //score += 10;
+                GameManager.Instance.ChangeScore(+10);
                 break;
             case "Water" when !isGirlActive:
                 transform.localScale -= new Vector3(0.2f,0.2f,0.2f);
-                score -= 10;
+                //score -= 10;
+                GameManager.Instance.ChangeScore(-10);
                 break;
         }
-        Debug.Log(score);
+        //Debug.Log(score);
     }
 }
