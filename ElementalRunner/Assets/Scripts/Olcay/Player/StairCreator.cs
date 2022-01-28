@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Olcay
+namespace Olcay.Player
 {
     public class StairCreator : MonoBehaviour
     {

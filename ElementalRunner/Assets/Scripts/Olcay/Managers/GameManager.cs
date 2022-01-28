@@ -1,7 +1,4 @@
-using System;
-using UnityEngine;
-
-namespace Olcay
+namespace Olcay.Managers
 {
     public class GameManager : MonoSingleton<GameManager>
     {

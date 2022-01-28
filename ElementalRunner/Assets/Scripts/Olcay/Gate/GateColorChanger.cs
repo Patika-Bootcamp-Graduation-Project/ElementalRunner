@@ -1,8 +1,8 @@
-using System;
 using System.Collections;
+using Olcay.Player;
 using UnityEngine;
 
-namespace Olcay
+namespace Olcay.Gate
 {
     public class GateColorChanger : MonoBehaviour
     {
@@ -20,14 +20,7 @@ namespace Olcay
 
         private void ChangeMat(bool isGirlActive)
         {
-            if (isGirlActive)
-            {
-                StartCoroutine(ChangeMatRoutine(fireMat));
-            }
-            else
-            {
-                StartCoroutine(ChangeMatRoutine(waterMat));
-            }
+            StartCoroutine(isGirlActive ? ChangeMatRoutine(fireMat) : ChangeMatRoutine(waterMat));
         }
 
         private IEnumerator ChangeMatRoutine(Material mat)

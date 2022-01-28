@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using UnityEngine;
 using Simla;
+using UnityEngine;
 
-namespace Olcay
+namespace Olcay.Player
 {
     public class Players : MonoBehaviour
     {
@@ -11,7 +11,7 @@ namespace Olcay
         [SerializeField] private GameObject girlPrefab;
         
         private float timer = 0f;
-        private float instantiateCD = 0f;
+        private readonly float instantiateCD = 0f;
         
         
         private GameObject girlPlayer;
@@ -57,7 +57,7 @@ namespace Olcay
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
-
+                    transform.localScale -= new Vector3(0.05f, 0.05f, 0.05f); //every stair will decrease players scale 0.05 or we can change this value with gamesettings
                     timer -= 0.2f;
 
                 }

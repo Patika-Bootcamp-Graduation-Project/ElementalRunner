@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Olcay
+namespace Olcay.Managers
 {
     public class LevelManager : MonoSingleton<LevelManager>
     {
