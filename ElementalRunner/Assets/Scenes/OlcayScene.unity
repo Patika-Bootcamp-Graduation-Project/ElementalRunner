@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25931b60efc3b6c45a712d207ed8a14b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGirlActive: 0
 --- !u!114 &609845290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorPos: {fileID: 1358921908}
-  fallTimer: 2
+  fallTimer: 0.2
   waitBeforeFall: 0
 --- !u!136 &609845292
 CapsuleCollider:
