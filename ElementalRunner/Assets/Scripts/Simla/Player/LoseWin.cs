@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class LoseWin : MonoBehaviour
 {
+    private float startScale;
+
+    [SerializeField] private ScaleChanger scaleChanger;
+
+    private void Start()
+    {
+        startScale = gameObject.transform.localScale.x;
+    }
     private void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag.Equals("Finish"))
         {
             Debug.Log("Collision is detected");
 
-            if(gameObject.transform.localScale.x <= 1)
+            if(gameObject.transform.localScale.x <= startScale)
             {
                 Debug.Log("Lose");
             }
@@ -18,6 +26,12 @@ public class LoseWin : MonoBehaviour
             {
                 Debug.Log("Win");
             }
+
+            if(scaleChanger.score > PlayerPrefs.GetInt("HighScore", 0))
+            {
+                PlayerPrefs.SetInt("HighScore", scaleChanger.score);
+            }
+            Debug.Log(PlayerPrefs.GetInt("HighScore", 0));
         }
     }
 }
