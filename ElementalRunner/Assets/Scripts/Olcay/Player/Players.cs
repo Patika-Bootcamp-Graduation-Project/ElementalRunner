@@ -70,7 +70,7 @@ namespace Olcay.Player
                     transform.localScale -=
                         new Vector3(0.05f, 0.05f,
                             0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
-                    if (gameObject.transform.localScale.x <= startScale && !isFinish) //fail olmasın zıplayamasın.
+                    /*if (gameObject.transform.localScale.x <= startScale && !isFinish) //fail olmasın zıplayamasın.
                     {
                         GameManager.Instance.Failed(); //its will be change with UI Manager.
                     }
@@ -78,8 +78,21 @@ namespace Olcay.Player
                     {
                         //mini oyun ile ilgili bağlantı.
                         //current stair çarpanına göre bir score increase işlemi olcak. --> observer(static event Action)
+                        if(isGirlActive)
+                        {
+                            SpawnManager.Instance.SpawnBall("WaterBalls",
+                                new Vector3(pos.x, pos.y, pos.z + 0.1f), 
+                                Quaternion.identity);
+                        }
+                        else
+                        {
+                            SpawnManager.Instance.SpawnBall("WaterBalls",
+                               new Vector3(pos.x, pos.y, pos.z + 0.1f),
+                               Quaternion.identity);
+                        }
+
                         GameManager.Instance.CurrentScoreAtFinish(6); //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
-                    }
+                    }*/
 
                     timer -= 0.2f;
                 }
