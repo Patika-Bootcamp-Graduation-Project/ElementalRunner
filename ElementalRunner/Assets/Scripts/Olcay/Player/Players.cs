@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using Olcay.Managers;
 using Simla;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace Olcay.Player
         [SerializeField] private float startScale;
 
         public static event Action<bool> playerChanged; //Observer
+        public static event Action playerCollisionWithFinish;
+        //public static event Action<bool,Vector3> playerSetUp;
 
         private void Awake()
         {
@@ -33,7 +36,7 @@ namespace Olcay.Player
             boyPlayer = Instantiate(boyPrefab, Vector3.zero, Quaternion.identity);
             boyPlayer.SetActive(false);
 
-            startScale = gameObject.transform.localScale.x;
+            //startScale = gameObject.transform.localScale.x;
         }
 
         private void Update()
@@ -41,11 +44,12 @@ namespace Olcay.Player
             GenerateStairs();
         }
 
+
         #region StairsGenerateAndSetActiveFalse
 
         private void GenerateStairs()
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !isFinish)
             {
                 timer += Time.deltaTime;
 
@@ -59,40 +63,20 @@ namespace Olcay.Player
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
-                    else
+                    else if (!isGirlActive)
                     {
                         GameObject stair = SpawnManager.Instance.SpawnStair("FireStairs",
                             new Vector3(pos.x, pos.y + 0.01f, pos.z),
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
-
                     transform.localScale -=
                         new Vector3(0.05f, 0.05f,
                             0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
-                    /*if (gameObject.transform.localScale.x <= startScale && !isFinish) //fail olmasın zıplayamasın.
+                    if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
                     {
                         GameManager.Instance.Failed(); //its will be change with UI Manager.
                     }
-                    else if (gameObject.transform.localScale.x <= startScale && isFinish)
-                    {
-                        //mini oyun ile ilgili bağlantı.
-                        //current stair çarpanına göre bir score increase işlemi olcak. --> observer(static event Action)
-                        if(isGirlActive)
-                        {
-                            SpawnManager.Instance.SpawnBall("WaterBalls",
-                                new Vector3(pos.x, pos.y, pos.z + 0.1f), 
-                                Quaternion.identity);
-                        }
-                        else
-                        {
-                            SpawnManager.Instance.SpawnBall("WaterBalls",
-                               new Vector3(pos.x, pos.y, pos.z + 0.1f),
-                               Quaternion.identity);
-                        }
-
-                        GameManager.Instance.CurrentScoreAtFinish(6); //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
-                    }*/
 
                     timer -= 0.2f;
                 }
@@ -137,13 +121,50 @@ namespace Olcay.Player
                     playerChanged?.Invoke(isGirlActive);
                 }
             }
-            else if (other.gameObject.CompareTag("Finish"))
-            {
-                isFinish = true;
-                //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
-            }
+            
         }
 
         #endregion
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Finish"))
+            {
+                isFinish = true;
+                playerCollisionWithFinish?.Invoke();
+                //var pos = transform.position;
+                //collisionWithFinish?.Invoke();
+                //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
+                //GameManager.Instance.CurrentScoreAtFinish(6); //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
+                InvokeRepeating(nameof(ThrowABallRoutine),1f,1f);
+            }
+        }
+
+        private void ThrowABallRoutine()
+        {
+                if (isGirlActive)
+                {
+                    var pos = transform.position;
+                    var posY = transform.localScale.y / 2f;
+                    SpawnManager.Instance.SpawnBall("WaterBalls",
+                        new Vector3(pos.x, posY, pos.z + 0.1f),
+                        Quaternion.identity);
+                    transform.localScale -= new Vector3(1f,1f,1f);
+                }
+                else
+                {
+                    var pos = transform.position;
+                    var posY = transform.localScale.y / 2f;
+                    SpawnManager.Instance.SpawnBall("FireBalls",
+                        new Vector3(pos.x, posY, pos.z + 0.1f),
+                        Quaternion.identity);
+                    transform.localScale -= new Vector3(1f,1f,1f);
+                }
+
+                if (gameObject.transform.localScale.x <= 1f && isFinish)
+                {
+                    CancelInvoke();
+                }
+        }
     }
 }

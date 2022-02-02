@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Olcay.Player
@@ -11,6 +12,13 @@ namespace Olcay.Player
         private float fallCD = 0.2f;
         [SerializeField] private bool waitBeforeFall = false;
         private float floorPosY => floorPos.position.z;
+
+        private bool isFinish;
+
+        private void Awake()
+        {
+            Players.playerCollisionWithFinish += ChangeFinishState;
+        }
 
         private void Update()
         {
@@ -29,7 +37,7 @@ namespace Olcay.Player
         }
         private void HandleInput()
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !isFinish)
             {
                 transform.position += Vector3.up * Time.deltaTime * 4f;
                 waitBeforeFall = false;
@@ -58,6 +66,11 @@ namespace Olcay.Player
             {
                 waitBeforeFall = false;
             }
+        }
+
+        private void ChangeFinishState()
+        {
+            isFinish = true;
         }
     }
 }

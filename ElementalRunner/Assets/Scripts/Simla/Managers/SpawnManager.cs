@@ -11,9 +11,9 @@ namespace Simla
             return ObjectPooler.Instance.SpawnFromPool(tag, position, rotation);
         }
 
-        public GameObject SpawnBall(string tag, Vector3 position, Quaternion rotation)
+        public void SpawnBall(string tag, Vector3 position, Quaternion rotation)
         {
-            return ObjectPool.Instance.GetPooledObject(tag, position, rotation);
+            ObjectPooler.Instance.SpawnFromPool(tag, position, rotation);
         }
     }
 }
