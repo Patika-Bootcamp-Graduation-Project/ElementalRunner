@@ -24,6 +24,8 @@ namespace Olcay.Player
 
         public static event Action<bool> playerChanged; //Observer
         public static event Action playerCollisionWithFinish;
+
+        public static event Action CalculateFinishScore;
         //public static event Action<bool,Vector3> playerSetUp;
 
         private void Awake()
@@ -135,8 +137,12 @@ namespace Olcay.Player
                 //var pos = transform.position;
                 //collisionWithFinish?.Invoke();
                 //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
-                //GameManager.Instance.CurrentScoreAtFinish(6); //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
+                
                 InvokeRepeating(nameof(ThrowABallRoutine),1f,1f);
+            }
+            else if (other.gameObject.CompareTag("LevelFinish"))
+            {
+                CalculateFinishScore?.Invoke();
             }
         }
 
@@ -164,6 +170,8 @@ namespace Olcay.Player
                 if (gameObject.transform.localScale.x <= 1f && isFinish)
                 {
                     CancelInvoke();
+                    //game finish
+                    // //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
                 }
         }
     }
