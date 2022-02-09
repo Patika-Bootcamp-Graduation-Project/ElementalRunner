@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
+using Olcay.Animations;
 using Olcay.Managers;
 using Simla;
 using UnityEngine;
@@ -24,7 +24,6 @@ namespace Olcay.Player
 
         public static event Action<bool> playerChanged; //Observer
         public static event Action playerCollisionWithFinish;
-
         public static event Action CalculateFinishScore;
         //public static event Action<bool,Vector3> playerSetUp;
 
@@ -137,7 +136,6 @@ namespace Olcay.Player
                 //var pos = transform.position;
                 //collisionWithFinish?.Invoke();
                 //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
-                
                 InvokeRepeating(nameof(ThrowABallRoutine),1f,1f);
             }
             else if (other.gameObject.CompareTag("LevelFinish"))
@@ -150,6 +148,7 @@ namespace Olcay.Player
         {
                 if (isGirlActive)
                 {
+                    AnimationController.Instance.ChangeAnimationState(State.Throw);
                     var pos = transform.position;
                     var posY = transform.localScale.y / 2f;
                     SpawnManager.Instance.SpawnBall("WaterBalls",
@@ -159,6 +158,8 @@ namespace Olcay.Player
                 }
                 else
                 {
+                    
+                    AnimationController.Instance.ChangeAnimationState(State.Throw);
                     var pos = transform.position;
                     var posY = transform.localScale.y / 2f;
                     SpawnManager.Instance.SpawnBall("FireBalls",
@@ -166,7 +167,7 @@ namespace Olcay.Player
                         Quaternion.identity);
                     transform.localScale -= new Vector3(1f,1f,1f);
                 }
-
+                
                 if (gameObject.transform.localScale.x <= 1f && isFinish)
                 {
                     CancelInvoke();

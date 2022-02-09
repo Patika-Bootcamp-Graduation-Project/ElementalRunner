@@ -1,4 +1,5 @@
 using System;
+using Olcay.Animations;
 using UnityEngine;
 
 namespace Olcay.Player
@@ -10,10 +11,15 @@ namespace Olcay.Player
         [SerializeField] private Transform floorPos;
         [SerializeField] private float fallTimer = 0;
         private float fallCD = 0.2f;
-        [SerializeField] private bool waitBeforeFall = false;
+        [SerializeField] private bool isGrounded;
+        [SerializeField] private bool isAvaliableForFalling;
         private float floorPosY => floorPos.position.z;
 
         private bool isFinish;
+        
+        [SerializeField]private bool isLock;
+        
+        
 
         private void Awake()
         {
@@ -25,7 +31,7 @@ namespace Olcay.Player
             ForwardMovement();
             HandleInput();
 
-            if (waitBeforeFall)
+            if (isAvaliableForFalling)
             {
                 Fall();
             }
@@ -33,18 +39,27 @@ namespace Olcay.Player
 
         private void ForwardMovement()
         {
+            if (!isAvaliableForFalling)
+            {
+                AnimationController.Instance.ChangeAnimationState(State.Running);
+            }
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
+            
         }
         private void HandleInput()
         {
             if (Input.GetMouseButton(0) && !isFinish)
             {
                 transform.position += Vector3.up * Time.deltaTime * 4f;
-                waitBeforeFall = false;
+                isGrounded = false;
             }
             else
             {
-                if (!waitBeforeFall && transform.position.y > floorPosY)
+                isAvaliableForFalling = true;
+            }
+            /*else
+            {
+                if (!isGrounded && transform.position.y > floorPosY)
                 {
                     fallTimer += Time.deltaTime;
                     if (fallTimer >= fallCD)
@@ -53,18 +68,20 @@ namespace Olcay.Player
                         fallTimer -= 0;
                     }
                 }
-            }
+            }*/
         }
 
         private void Fall()
         {
             if (transform.position.y > floorPosY )
             {
+                AnimationController.Instance.ChangeAnimationState(State.Falling);
                 transform.position += Vector3.down * Time.deltaTime * +9.8f;
             }
             else if (transform.position.y <= floorPosY )
             {
-                waitBeforeFall = false;
+                isGrounded = true;
+                isAvaliableForFalling = false;
             }
         }
 
