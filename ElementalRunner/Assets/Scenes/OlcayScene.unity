@@ -1009,7 +1009,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorPos: {fileID: 1358921908}
   fallTimer: 0.2
-  waitBeforeFall: 0
+  isGrounded: 0
+  isAvaliableForFalling: 0
+  isLock: 0
 --- !u!136 &609845292
 CapsuleCollider:
   m_ObjectHideFlags: 0
