@@ -2,15 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class UıManager : MonoSingleton<UıManager>
+public class UIManager : MonoSingleton<UIManager>
 {
     [SerializeField] private GameObject startUI;
     [SerializeField] private GameObject inGameUI;
     [SerializeField] private GameObject failUI;
     [SerializeField] private GameObject winUI;
-    [SerializeField] private Text scoreTxt;
-    [SerializeField] private Text bestScoreTxt;
+    [SerializeField] private TextMeshProUGUI inGameScoreTxt;
+    [SerializeField] private TextMeshProUGUI bestScoreTxt;
+    [SerializeField] private TextMeshProUGUI finishScoreTxt;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void StartGame()
     {
@@ -30,9 +37,14 @@ public class UıManager : MonoSingleton<UıManager>
         winUI.SetActive(true);
     }
 
-    public void Score(int score)
+    public void InGameScore(int score)
     {
-        scoreTxt.text = score.ToString();
+        inGameScoreTxt.text = score.ToString();
+    }
+
+    public void FinishScore(int score)
+    {
+        finishScoreTxt.text = score.ToString();
     }
 
     public void BestScore()
