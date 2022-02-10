@@ -24,6 +24,7 @@ namespace Olcay.Player
 
         public static event Action<bool> playerChanged; //Observer
         public static event Action playerCollisionWithFinish;
+        public static event Action playerCollisionWithLevelFinish;
         public static event Action CalculateFinishScore;
         //public static event Action<bool,Vector3> playerSetUp;
 
@@ -76,6 +77,7 @@ namespace Olcay.Player
                             0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
                     if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
                     {
+                        AnimationController.Instance.ChangeAnimationState(State.SweepFall);
                         GameManager.Instance.Failed(); //its will be change with UI Manager.
                     }
 
@@ -140,6 +142,8 @@ namespace Olcay.Player
             }
             else if (other.gameObject.CompareTag("LevelFinish"))
             {
+                playerCollisionWithLevelFinish?.Invoke();
+                AnimationController.Instance.ChangeAnimationState(State.Dance);
                 CalculateFinishScore?.Invoke();
             }
         }

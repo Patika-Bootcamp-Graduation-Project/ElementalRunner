@@ -9,40 +9,40 @@ namespace Olcay.Player
     {
         private float speed = 5f;
         [SerializeField] private Transform floorPos;
-        [SerializeField] private float fallTimer = 0;
         private float fallCD = 0.2f;
         [SerializeField] private bool isGrounded;
-        [SerializeField] private bool isAvaliableForFalling;
         private float floorPosY => floorPos.position.z;
 
         private bool isFinish;
-        
-        [SerializeField]private bool isLock;
+        [SerializeField]private bool isLevelFinish;
         
         
 
         private void Awake()
         {
             Players.playerCollisionWithFinish += ChangeFinishState;
+            Players.playerCollisionWithLevelFinish += ChangeLevelFinishState;
+            AnimationController.Instance.ChangeAnimationState(State.Running);
         }
 
         private void Update()
         {
+            if (!isFinish)
+            {
+                AnimationHandler();
+            }
+
+            if (isLevelFinish)
+            {
+                return;
+            }
             ForwardMovement();
             HandleInput();
-
-            if (isAvaliableForFalling)
-            {
-                Fall();
-            }
+            Fall();
         }
 
         private void ForwardMovement()
         {
-            if (!isAvaliableForFalling)
-            {
-                AnimationController.Instance.ChangeAnimationState(State.Running);
-            }
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
             
         }
@@ -50,38 +50,26 @@ namespace Olcay.Player
         {
             if (Input.GetMouseButton(0) && !isFinish)
             {
+                AnimationController.Instance.ChangeAnimationState(State.Running);
                 transform.position += Vector3.up * Time.deltaTime * 4f;
-                isGrounded = false;
+                isGrounded = true;
             }
             else
             {
-                isAvaliableForFalling = true;
+                isGrounded = false;
             }
-            /*else
-            {
-                if (!isGrounded && transform.position.y > floorPosY)
-                {
-                    fallTimer += Time.deltaTime;
-                    if (fallTimer >= fallCD)
-                    {
-                        waitBeforeFall = true;
-                        fallTimer -= 0;
-                    }
-                }
-            }*/
+            
         }
 
         private void Fall()
         {
-            if (transform.position.y > floorPosY )
+            if (transform.position.y > floorPosY && !isGrounded)
             {
-                AnimationController.Instance.ChangeAnimationState(State.Falling);
                 transform.position += Vector3.down * Time.deltaTime * +9.8f;
             }
             else if (transform.position.y <= floorPosY )
             {
                 isGrounded = true;
-                isAvaliableForFalling = false;
             }
         }
 
@@ -89,5 +77,23 @@ namespace Olcay.Player
         {
             isFinish = true;
         }
+        private void ChangeLevelFinishState()
+        {
+            isLevelFinish = true;
+        }
+        
+        private void AnimationHandler()
+        {
+            if (isGrounded)
+            {
+                AnimationController.Instance.ChangeAnimationState(State.Running);
+            }
+            else if (!isGrounded)
+            {
+                AnimationController.Instance.ChangeAnimationState(State.Falling);
+            }
+        }
     }
+    
+   
 }

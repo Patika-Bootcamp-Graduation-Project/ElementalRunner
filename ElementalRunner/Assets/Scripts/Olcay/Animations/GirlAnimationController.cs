@@ -35,21 +35,27 @@ namespace Olcay.Animations
                         break;
                     case State.Dance:
                         currentState = GIRL_DANCE;
+                        //animator.SetBool("isWon",true);
                         break;
                     case State.Falling:
                         currentState = GIRL_FALLING;
+                        //animator.SetBool("isFalling",true);
                         break;
                     case State.FallingToLanding:
                         currentState = GIRL_FALLINGTOLANDING;
+                        //animator.SetBool("isGrounded",true);
                         break;
                     case State.Running:
                         currentState = GIRL_RUNNING;
+                        //animator.SetBool("isRunning",true);
                         break;
                     case State.SweepFall:
                         currentState = GIRL_SWEEPFALL;
+                        //animator.SetBool("isLost",true);
                         break;
                     case State.Throw:
                         currentState = GIRL_THROW;
+                        //animator.SetBool("isThisFirstGate",true);
                         break;
                 }
                 animator.Play(currentState);
