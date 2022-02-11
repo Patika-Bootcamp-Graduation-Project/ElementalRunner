@@ -7,7 +7,6 @@ public class LoadManager : MonoBehaviour
 {
     private void Awake()
     {
-        SceneManager.LoadScene("UIScene", LoadSceneMode.Additive); 
-        
+        SceneManager.LoadScene("UIScene", LoadSceneMode.Additive);
     }
 }

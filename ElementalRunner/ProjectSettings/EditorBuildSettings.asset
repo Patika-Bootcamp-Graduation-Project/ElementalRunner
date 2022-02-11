@@ -6,9 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OlcayScene.unity
-    guid: c4ae8fe071c66db4e8d5e5644960174c
+    path: Assets/Scenes/PreLoadScene.unity
+    guid: 5f82bbd83b2849347aa1c0357cc95592
   - enabled: 1
     path: Assets/Scenes/UIScene.unity
     guid: 10de544e0bc1481498c27c1cbc49a571
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: c4ae8fe071c66db4e8d5e5644960174c
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: eb893c33daa2d094f9df0673f948d6b9
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: 4a7781698b75aad4fa8196d4fcd238b3
+  - enabled: 1
+    path: Assets/Scenes/Level4.unity
+    guid: 913f52e4b325b9b4e97c51057bb3b685
+  - enabled: 1
+    path: Assets/Scenes/Level5.unity
+    guid: 3735bdd3c40d86e4482b64de301981f4
   m_configObjects: {}

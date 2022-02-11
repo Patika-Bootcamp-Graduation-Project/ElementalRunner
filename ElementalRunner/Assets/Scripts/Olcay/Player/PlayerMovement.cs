@@ -1,5 +1,6 @@
 using System;
 using Olcay.Animations;
+using Olcay.Managers;
 using UnityEngine;
 
 namespace Olcay.Player
@@ -16,13 +17,19 @@ namespace Olcay.Player
         private bool isFinish;
         [SerializeField]private bool isLevelFinish;
         
+        private bool isGameStart;
         
 
         private void Awake()
         {
             Players.playerCollisionWithFinish += ChangeFinishState;
             Players.playerCollisionWithLevelFinish += ChangeLevelFinishState;
-            AnimationController.Instance.ChangeAnimationState(State.Running);
+        }
+
+        private void OnDestroy()
+        {
+            Players.playerCollisionWithFinish -= ChangeFinishState;
+            Players.playerCollisionWithLevelFinish -= ChangeLevelFinishState;
         }
 
         private void Update()
@@ -44,12 +51,18 @@ namespace Olcay.Player
         private void ForwardMovement()
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            
         }
         private void HandleInput()
         {
             if (Input.GetMouseButton(0) && !isFinish)
             {
+                if (!isGameStart)
+                {
+                    GameManager.Instance.StartThisLevel();
+                    AnimationController.Instance.ChangeAnimationState(State.Running);
+                }
+                isGameStart = true;
+                
                 AnimationController.Instance.ChangeAnimationState(State.Running);
                 transform.position += Vector3.up * Time.deltaTime * 4f;
                 isGrounded = true;

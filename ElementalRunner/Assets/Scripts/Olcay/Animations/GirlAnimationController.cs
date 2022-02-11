@@ -25,6 +25,11 @@ namespace Olcay.Animations
             AnimationController.ChangeGirlAnimation += ChangeAnimationState;
         }
 
+        private void OnDestroy()
+        {
+            AnimationController.ChangeGirlAnimation -= ChangeAnimationState;
+        }
+
         private void ChangeAnimationState(State newState)
         {
             currentState = string.Empty;

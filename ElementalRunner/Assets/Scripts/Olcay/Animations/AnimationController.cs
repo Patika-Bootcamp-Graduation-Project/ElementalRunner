@@ -14,6 +14,12 @@ namespace Olcay.Animations
         {
             Players.playerChanged += ChangeCurrentPlayer;
         }
+
+        private void OnDestroy()
+        {
+            Players.playerChanged -= ChangeCurrentPlayer;
+        }
+
         private void ChangeCurrentPlayer(bool whoActive)
         {
             isGirlActive = whoActive;

@@ -28,6 +28,7 @@ namespace Olcay.Player
         public static event Action CalculateFinishScore;
         //public static event Action<bool,Vector3> playerSetUp;
 
+
         private void Awake()
         {
             girlPlayer = Instantiate(girlPrefab, transform.position, transform.rotation);
@@ -35,7 +36,8 @@ namespace Olcay.Player
             isGirlActive = true;
             playerChanged?.Invoke(isGirlActive);
 
-            boyPlayer = Instantiate(boyPrefab, Vector3.zero, Quaternion.identity);
+            boyPlayer = Instantiate(boyPrefab, transform.position, transform.rotation);
+            boyPlayer.transform.parent = this.gameObject.transform;
             boyPlayer.SetActive(false);
 
             //startScale = gameObject.transform.localScale.x;
@@ -44,8 +46,22 @@ namespace Olcay.Player
         private void Update()
         {
             GenerateStairs();
+            
         }
 
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+        }
+
+        private void FailDetection()
+        {
+            if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
+            {
+                AnimationController.Instance.ChangeAnimationState(State.SweepFall);
+                GameManager.Instance.Failed(); //its will be change with UI Manager.
+            }
+        }
 
         #region StairsGenerateAndSetActiveFalse
 
@@ -75,12 +91,7 @@ namespace Olcay.Player
                     transform.localScale -=
                         new Vector3(0.05f, 0.05f,
                             0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
-                    if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
-                    {
-                        AnimationController.Instance.ChangeAnimationState(State.SweepFall);
-                        GameManager.Instance.Failed(); //its will be change with UI Manager.
-                    }
-
+                    
                     timer -= 0.2f;
                 }
             }

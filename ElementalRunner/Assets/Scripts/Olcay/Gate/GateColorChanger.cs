@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Olcay.Player;
 using UnityEngine;
@@ -16,6 +17,12 @@ namespace Olcay.Gate
         private void Awake()
         {
             Players.playerChanged += ChangeMat;
+        }
+
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+            Players.playerChanged -= ChangeMat;
         }
 
         private void ChangeMat(bool isGirlActive)

@@ -17,6 +17,12 @@ namespace Simla
             Players.CalculateFinishScore += GameFinishScore;
         }
 
+        private void OnDestroy()
+        {
+            Players.CalculateFinishScore -= GameFinishScore;
+        }
+        
+
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.tag.Equals("WaterBall") || other.gameObject.tag.Equals("FireBall"))
@@ -30,6 +36,7 @@ namespace Simla
                     gameObject.SetActive(false);
                 }
             }
+            
         }
 
         private void GameFinishScore()

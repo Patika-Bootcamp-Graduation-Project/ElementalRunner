@@ -11,7 +11,7 @@ namespace Olcay.Managers
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            LoadLevel(1);
+            LoadLevel(2);
         }
 
         private void LoadLevel(int index)
@@ -23,11 +23,13 @@ namespace Olcay.Managers
                 camera.cullingMask = 0;
             }
       
-            Invoke(nameof(LoadScene),3f);
+            Invoke(nameof(LoadScene),0f);
         }
 
         private void LoadScene()
         {
+            
+            //Time.timeScale = 1f;
             SceneManager.LoadScene(currentLevel);
         }
 
@@ -45,7 +47,7 @@ namespace Olcay.Managers
             }
             else
             {
-                LoadLevel(1);
+                LoadLevel(2);
             }
         }
     }

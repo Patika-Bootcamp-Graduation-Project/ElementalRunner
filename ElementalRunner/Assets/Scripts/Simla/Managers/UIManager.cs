@@ -16,13 +16,15 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        startUI.SetActive(true);
+        inGameUI.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void StartGame()
     {
         startUI.SetActive(false);
-        inGameUI.SetActive(true);
+        //inGameUI.SetActive(true);
     }
 
     public void Fail()

@@ -15,6 +15,12 @@ public class ScaleChanger : MonoBehaviour
         Objectives.collisionWithObjective += ChangePlayerScale;
     }
 
+    private void OnDestroy()
+    {
+        Players.playerChanged -= ChangeCurrentPlayer;
+        Objectives.collisionWithObjective -= ChangePlayerScale;
+    }
+
 
     private void ChangeCurrentPlayer(bool whoActive)
     {
