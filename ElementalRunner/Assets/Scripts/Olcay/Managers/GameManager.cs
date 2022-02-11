@@ -1,3 +1,4 @@
+using Olcay.Player;
 using UnityEngine;
 
 namespace Olcay.Managers
@@ -6,11 +7,21 @@ namespace Olcay.Managers
     {
         [SerializeField] private int score = 0;
         private int tempScore = 0;
-        
+        [SerializeField] private int level = 1;
+        private string levelValue;
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             PlayerPrefs.SetInt("HighScore", score);
+            if (PlayerPrefs.GetInt("Level") < level)
+            {
+                PlayerPrefs.SetInt("Level", level);
+            }
+            else
+            {
+                level = PlayerPrefs.GetInt("Level");
+            }
         }
 
         public void ChangeScore(int index)
@@ -23,13 +34,15 @@ namespace Olcay.Managers
         {
             tempScore = score;
             score *= index;
-            
+
             if (score > PlayerPrefs.GetInt("HighScore", 0))
             {
                 PlayerPrefs.SetInt("HighScore", score);
             } //UI Manager next level veya retry ile ilgili bir action
+
             Won();
         }
+
         public void Won()
         {
             //timescale=0 and use this function with UI Manager next level button
@@ -57,7 +70,13 @@ namespace Olcay.Managers
             tempScore = 0;
             score = 0;
         }
-        
+
+        public void ChangeLevelTextValue(int level)
+        {
+            PlayerPrefs.SetInt("Level", level);
+            this.level=level;
+            UIManager.Instance.TextCurrentLevel();
+            //levelValue = ;
+        }
     }
 }
-

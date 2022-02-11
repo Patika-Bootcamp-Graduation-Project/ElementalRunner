@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class UIManager : MonoSingleton<UIManager>
@@ -13,11 +10,13 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private TextMeshProUGUI inGameScoreTxt;
     [SerializeField] private TextMeshProUGUI bestScoreTxt;
     [SerializeField] private TextMeshProUGUI finishScoreTxt;
+    [SerializeField] private TextMeshProUGUI levelTxt;
 
     private void Awake()
     {
         startUI.SetActive(true);
         inGameUI.SetActive(true);
+        TextCurrentLevel();
         Time.timeScale = 0f;
     }
 
@@ -52,5 +51,10 @@ public class UIManager : MonoSingleton<UIManager>
     public void BestScore()
     {
         bestScoreTxt.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
+    }
+
+    public void TextCurrentLevel()
+    {
+        levelTxt.text = $"Level {PlayerPrefs.GetInt("Level")}";
     }
 }
