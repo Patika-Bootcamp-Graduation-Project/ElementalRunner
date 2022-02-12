@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Olcay.Animations;
 using Olcay.Managers;
 using Olcay.Player;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Simla
     {
         private int HP = 3;
         private int ballCount = 0;
+        public static event Action LevelFinished;
 
         private void Awake()
         {
@@ -33,6 +35,7 @@ namespace Simla
                 ballCount++;
                 if (HP == 0)
                 {
+                    LevelFinished?.Invoke();
                     gameObject.SetActive(false);
                 }
             }

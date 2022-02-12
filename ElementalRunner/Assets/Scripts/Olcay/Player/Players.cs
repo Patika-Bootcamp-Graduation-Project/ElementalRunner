@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Cinemachine;
 using Olcay.Animations;
 using Olcay.Managers;
 using Simla;
@@ -35,7 +36,7 @@ namespace Olcay.Player
         Color girlFog = new Color(0.4666667f, 0.8f, 0.7933347f, 1f);
         Color boyFog = new Color(0.8018868f, 0.4652457f, 0.4652457f, 1f);
 
-        [SerializeField] private Camera camera=>Extentions.Camera;
+        private Camera camera=>Extentions.Camera;
 
         private void Awake()
         {
@@ -67,6 +68,7 @@ namespace Olcay.Player
             //startScale = gameObject.transform.localScale.x;
 
             PlayerMovement.gameStarting += ChangeGameStartState;
+            MiniGame.LevelFinished += LevelCompleted;
         }
 
         private void Update()
@@ -77,6 +79,7 @@ namespace Olcay.Player
         private void OnDestroy()
         {
             PlayerMovement.gameStarting -= ChangeGameStartState;
+            MiniGame.LevelFinished -= LevelCompleted;
             StopAllCoroutines();
         }
 
@@ -178,13 +181,13 @@ namespace Olcay.Player
                 //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
                 InvokeRepeating(nameof(ThrowABallRoutine), 1f, 1f);
             }
-            else if (other.gameObject.CompareTag("LevelFinish"))
+            /*else if (other.gameObject.CompareTag("LevelFinish"))
             {
                 playerCollisionWithLevelFinish?.Invoke();
                 CancelInvoke(nameof(ThrowABallRoutine));
                 AnimationController.Instance.ChangeAnimationState(State.Dance);
                 calculateFinishScore?.Invoke();
-            }
+            }*/
         }
         private void FailDetection()
         {
@@ -222,15 +225,19 @@ namespace Olcay.Player
 
             if (gameObject.transform.localScale.x <= 1f && isFinish)
             {
-                CancelInvoke();
-                
-                //game finish
-                // //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
+                //win vercek dans etcek
+                LevelCompleted();
             }
         }
 
-        
 
+        private void LevelCompleted()
+        {
+            playerCollisionWithLevelFinish?.Invoke();
+            CancelInvoke(nameof(ThrowABallRoutine));
+            AnimationController.Instance.ChangeAnimationState(State.Dance);
+            calculateFinishScore?.Invoke();
+        }
         private void ChangeGameStartState()
         {
             isGameStart = true;
