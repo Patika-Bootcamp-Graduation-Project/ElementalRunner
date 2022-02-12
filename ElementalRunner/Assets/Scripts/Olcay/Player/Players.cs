@@ -6,6 +6,7 @@ using Simla;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
 namespace Olcay.Player
 {
     public class Players : MonoBehaviour
@@ -31,6 +32,10 @@ namespace Olcay.Player
         public static event Action levelFailed;
         //public static event Action<bool,Vector3> playerSetUp;
 
+        Color girlFog = new Color(0.4666667f, 0.8f, 0.7933347f, 1f);
+        Color boyFog = new Color(0.8018868f, 0.4652457f, 0.4652457f, 1f);
+
+        [SerializeField] private Camera camera;
 
         private void Awake()
         {
@@ -46,10 +51,14 @@ namespace Olcay.Player
             if (isGirlActive)
             {
                 boyPlayer.SetActive(false);
+                RenderSettings.fogColor = girlFog;
+                camera.backgroundColor = girlFog;
             }
             else
             {
                 girlPlayer.SetActive(false);
+                RenderSettings.fogColor = boyFog;
+                camera.backgroundColor = boyFog;
             }
             
             playerChanged?.Invoke(isGirlActive);
