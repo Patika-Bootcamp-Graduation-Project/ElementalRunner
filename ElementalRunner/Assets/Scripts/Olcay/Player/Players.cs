@@ -21,11 +21,12 @@ namespace Olcay.Player
         private bool isGirlActive;
         [SerializeField] private bool isFinish = false;
         [SerializeField] private float startScale;
-
+        private bool isGameStart;
         public static event Action<bool> playerChanged; //Observer
         public static event Action playerCollisionWithFinish;
         public static event Action playerCollisionWithLevelFinish;
-        public static event Action CalculateFinishScore;
+        public static event Action calculateFinishScore;
+        public static event Action levelFailed;
         //public static event Action<bool,Vector3> playerSetUp;
 
 
@@ -41,19 +42,22 @@ namespace Olcay.Player
             boyPlayer.SetActive(false);
 
             //startScale = gameObject.transform.localScale.x;
+
+            PlayerMovement.gameStarting += ChangeGameStartState;
         }
 
         private void Update()
         {
             GenerateStairs();
-            
         }
 
         private void OnDestroy()
         {
+            PlayerMovement.gameStarting -= ChangeGameStartState;
             StopAllCoroutines();
         }
 
+        
         private void FailDetection()
         {
             if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
@@ -67,7 +71,7 @@ namespace Olcay.Player
 
         private void GenerateStairs()
         {
-            if (Input.GetMouseButton(0) && !isFinish)
+            if (Input.GetMouseButton(0)&& isGameStart && !isFinish && !Extentions.IsOverUi() )
             {
                 timer += Time.deltaTime;
 
@@ -154,8 +158,9 @@ namespace Olcay.Player
             else if (other.gameObject.CompareTag("LevelFinish"))
             {
                 playerCollisionWithLevelFinish?.Invoke();
+                CancelInvoke(nameof(ThrowABallRoutine));
                 AnimationController.Instance.ChangeAnimationState(State.Dance);
-                CalculateFinishScore?.Invoke();
+                calculateFinishScore?.Invoke();
             }
         }
 
@@ -165,22 +170,26 @@ namespace Olcay.Player
                 {
                     AnimationController.Instance.ChangeAnimationState(State.Throw);
                     var pos = transform.position;
-                    var posY = transform.localScale.y / 2f;
+                    var localScale = transform.localScale;
+                    var posY = localScale.y / 2f;
                     SpawnManager.Instance.SpawnBall("WaterBalls",
                         new Vector3(pos.x, posY, pos.z + 0.1f),
                         Quaternion.identity);
-                    transform.localScale -= new Vector3(1f,1f,1f);
+                    localScale -= new Vector3(1f,1f,1f);
+                    transform.localScale = localScale;
                 }
                 else
                 {
                     
                     AnimationController.Instance.ChangeAnimationState(State.Throw);
                     var pos = transform.position;
-                    var posY = transform.localScale.y / 2f;
+                    var localScale = transform.localScale;
+                    var posY = localScale.y / 2f;
                     SpawnManager.Instance.SpawnBall("FireBalls",
                         new Vector3(pos.x, posY, pos.z + 0.1f),
                         Quaternion.identity);
-                    transform.localScale -= new Vector3(1f,1f,1f);
+                    localScale -= new Vector3(1f,1f,1f);
+                    transform.localScale = localScale;
                 }
                 
                 if (gameObject.transform.localScale.x <= 1f && isFinish)
@@ -189,6 +198,11 @@ namespace Olcay.Player
                     //game finish
                     // //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
                 }
+                
+        }
+        private void ChangeGameStartState()
+        {
+            isGameStart = true;
         }
     }
 }

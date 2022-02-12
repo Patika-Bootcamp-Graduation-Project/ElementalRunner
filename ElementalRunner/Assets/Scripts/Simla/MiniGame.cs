@@ -14,12 +14,12 @@ namespace Simla
 
         private void Awake()
         {
-            Players.CalculateFinishScore += GameFinishScore;
+            Players.calculateFinishScore += GameFinishScore;
         }
 
         private void OnDestroy()
         {
-            Players.CalculateFinishScore -= GameFinishScore;
+            Players.calculateFinishScore -= GameFinishScore;
         }
         
 

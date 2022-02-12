@@ -11,13 +11,21 @@ namespace Olcay.Managers
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            LoadLevel(2);
+            if (PlayerPrefs.GetInt("Level")+1< SceneManager.sceneCountInBuildSettings)
+            {
+                LoadLevel(PlayerPrefs.GetInt("Level")+1);
+            }
+            else
+            {
+                LoadLevel(2);
+            }
         }
 
         private void LoadLevel(int index)
         {
             currentLevel = index;
-            Camera camera=Camera.main;
+            //Camera camera=Camera.main;
+            Camera camera = Extentions.Camera;
             if (camera!=null)
             {
                 camera.cullingMask = 0;

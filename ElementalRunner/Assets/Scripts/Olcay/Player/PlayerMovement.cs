@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Olcay.Animations;
 using Olcay.Managers;
 using UnityEngine;
@@ -18,27 +19,33 @@ namespace Olcay.Player
         [SerializeField]private bool isLevelFinish;
         
         private bool isGameStart;
-        
+        public static event Action gameStarting;
 
         private void Awake()
         {
             Players.playerCollisionWithFinish += ChangeFinishState;
             Players.playerCollisionWithLevelFinish += ChangeLevelFinishState;
+            Players.levelFailed += LevelFailed;
         }
 
         private void OnDestroy()
         {
             Players.playerCollisionWithFinish -= ChangeFinishState;
             Players.playerCollisionWithLevelFinish -= ChangeLevelFinishState;
+            Players.levelFailed -= LevelFailed;
         }
 
         private void Update()
         {
+            HandleGameStart();
+            if (!isGameStart)
+            {
+                return;
+            }
             if (!isFinish)
             {
                 AnimationHandler();
             }
-
             if (isLevelFinish)
             {
                 return;
@@ -48,21 +55,23 @@ namespace Olcay.Player
             Fall();
         }
 
+         void HandleGameStart()
+        {
+            if (Input.GetMouseButtonUp(0) && !isFinish && Extentions.IsOverUi())
+            {
+                GameManager.Instance.StartThisLevel();
+                isGameStart = true;
+                gameStarting?.Invoke();
+            }
+        }
         private void ForwardMovement()
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
         }
         private void HandleInput()
         {
-            if (Input.GetMouseButton(0) && !isFinish)
+            if (Input.GetMouseButton(0) && !isFinish && !Extentions.IsOverUi())
             {
-                if (!isGameStart)
-                {
-                    GameManager.Instance.StartThisLevel();
-                    AnimationController.Instance.ChangeAnimationState(State.Running);
-                }
-                isGameStart = true;
-                
                 AnimationController.Instance.ChangeAnimationState(State.Running);
                 transform.position += Vector3.up * Time.deltaTime * 4f;
                 isGrounded = true;
@@ -94,7 +103,11 @@ namespace Olcay.Player
         {
             isLevelFinish = true;
         }
-        
+        private void LevelFailed()
+        {
+            isFinish = true;
+            isLevelFinish = true;
+        }
         private void AnimationHandler()
         {
             if (isGrounded)
@@ -106,6 +119,8 @@ namespace Olcay.Player
                 AnimationController.Instance.ChangeAnimationState(State.Falling);
             }
         }
+
+        
     }
     
    

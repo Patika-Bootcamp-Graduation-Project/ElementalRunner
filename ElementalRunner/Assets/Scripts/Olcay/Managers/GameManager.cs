@@ -65,7 +65,7 @@ namespace Olcay.Managers
 
         public void StartThisLevel()
         {
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             UIManager.Instance.StartGame();
             tempScore = 0;
             score = 0;

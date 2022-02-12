@@ -17,7 +17,7 @@ public class UIManager : MonoSingleton<UIManager>
         startUI.SetActive(true);
         inGameUI.SetActive(true);
         TextCurrentLevel();
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     public void StartGame()
