@@ -8,7 +8,7 @@ public class ScaleChanger : MonoBehaviour
 {
     [SerializeField] private bool isGirlActive;
 
-    
+    public static event Action levelFailed;
     private void Awake()
     {
         Players.playerChanged += ChangeCurrentPlayer;
@@ -50,6 +50,12 @@ public class ScaleChanger : MonoBehaviour
                 //score -= 10;
                 GameManager.Instance.ChangeScore(-10);
                 break;
+        }
+
+        if (transform.localScale.x<1)
+        {
+            levelFailed?.Invoke();
+            GameManager.Instance.Failed();
         }
         //Debug.Log(score);
     }

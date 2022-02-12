@@ -4,6 +4,7 @@ using Olcay.Animations;
 using Olcay.Managers;
 using Simla;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Olcay.Player
 {
@@ -26,6 +27,7 @@ namespace Olcay.Player
         public static event Action playerCollisionWithFinish;
         public static event Action playerCollisionWithLevelFinish;
         public static event Action calculateFinishScore;
+
         public static event Action levelFailed;
         //public static event Action<bool,Vector3> playerSetUp;
 
@@ -34,13 +36,25 @@ namespace Olcay.Player
         {
             girlPlayer = Instantiate(girlPrefab, transform.position, transform.rotation);
             girlPlayer.transform.parent = this.gameObject.transform;
-            isGirlActive = true;
-            playerChanged?.Invoke(isGirlActive);
+            //isGirlActive = true;
+            
 
             boyPlayer = Instantiate(boyPrefab, transform.position, transform.rotation);
             boyPlayer.transform.parent = this.gameObject.transform;
-            boyPlayer.SetActive(false);
-
+            //boyPlayer.SetActive(false);
+            isGirlActive = Random.value<0.5f;
+            if (isGirlActive)
+            {
+                boyPlayer.SetActive(false);
+            }
+            else
+            {
+                girlPlayer.SetActive(false);
+            }
+            
+            playerChanged?.Invoke(isGirlActive);
+            
+            //SwapCurrentPlayer(isGirlActive);
             //startScale = gameObject.transform.localScale.x;
 
             PlayerMovement.gameStarting += ChangeGameStartState;
@@ -57,21 +71,12 @@ namespace Olcay.Player
             StopAllCoroutines();
         }
 
-        
-        private void FailDetection()
-        {
-            if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
-            {
-                AnimationController.Instance.ChangeAnimationState(State.SweepFall);
-                GameManager.Instance.Failed(); //its will be change with UI Manager.
-            }
-        }
 
         #region StairsGenerateAndSetActiveFalse
 
         private void GenerateStairs()
         {
-            if (Input.GetMouseButton(0)&& isGameStart && !isFinish && !Extentions.IsOverUi() )
+            if (Input.GetMouseButton(0) && isGameStart && !isFinish && !Extentions.IsOverUi())
             {
                 timer += Time.deltaTime;
 
@@ -92,10 +97,15 @@ namespace Olcay.Player
                             Quaternion.identity);
                         StartCoroutine(SetActiveFalseRoutine(stair));
                     }
+
                     transform.localScale -=
                         new Vector3(0.05f, 0.05f,
                             0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
-                    
+                    if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
+                    {
+                        FailDetection();
+                    }
+
                     timer -= 0.2f;
                 }
             }
@@ -116,30 +126,34 @@ namespace Olcay.Player
         {
             if (other.gameObject.CompareTag("Gate"))
             {
-                if (isGirlActive)
-                {
-                    boyPlayer.SetActive(true);
-                    boyPlayer.transform.position = transform.position;
-                    boyPlayer.transform.parent = gameObject.transform;
-
-                    girlPlayer.transform.position = Vector3.zero;
-                    girlPlayer.SetActive(false);
-                    isGirlActive = false;
-                    playerChanged?.Invoke(isGirlActive);
-                }
-                else
-                {
-                    girlPlayer.SetActive(true);
-                    girlPlayer.transform.position = transform.position;
-                    girlPlayer.transform.parent = gameObject.transform;
-
-                    boyPlayer.transform.position = Vector3.zero;
-                    boyPlayer.SetActive(false);
-                    isGirlActive = true;
-                    playerChanged?.Invoke(isGirlActive);
-                }
+                SwapCurrentPlayer(isGirlActive);
             }
-            
+        }
+
+        private void SwapCurrentPlayer(bool isGirlActive)
+        {
+            if (isGirlActive)
+            {
+                boyPlayer.SetActive(true);
+                boyPlayer.transform.position = transform.position;
+                boyPlayer.transform.parent = gameObject.transform;
+
+                girlPlayer.transform.position = Vector3.zero;
+                girlPlayer.SetActive(false);
+                isGirlActive = false;
+                playerChanged?.Invoke(isGirlActive);
+            }
+            else
+            {
+                girlPlayer.SetActive(true);
+                girlPlayer.transform.position = transform.position;
+                girlPlayer.transform.parent = gameObject.transform;
+
+                boyPlayer.transform.position = Vector3.zero;
+                boyPlayer.SetActive(false);
+                isGirlActive = true;
+                playerChanged?.Invoke(isGirlActive);
+            }
         }
 
         #endregion
@@ -153,7 +167,7 @@ namespace Olcay.Player
                 //var pos = transform.position;
                 //collisionWithFinish?.Invoke();
                 //tap işlemi yapmamız lazım.  -> bunu araştırmamız gerekiyor.
-                InvokeRepeating(nameof(ThrowABallRoutine),1f,1f);
+                InvokeRepeating(nameof(ThrowABallRoutine), 1f, 1f);
             }
             else if (other.gameObject.CompareTag("LevelFinish"))
             {
@@ -163,43 +177,50 @@ namespace Olcay.Player
                 calculateFinishScore?.Invoke();
             }
         }
+        private void FailDetection()
+        {
+            isFinish = true;
+            levelFailed?.Invoke();
+            GameManager.Instance.Failed(); //its will be change with UI Manager.
+        }
 
         private void ThrowABallRoutine()
         {
-                if (isGirlActive)
-                {
-                    AnimationController.Instance.ChangeAnimationState(State.Throw);
-                    var pos = transform.position;
-                    var localScale = transform.localScale;
-                    var posY = localScale.y / 2f;
-                    SpawnManager.Instance.SpawnBall("WaterBalls",
-                        new Vector3(pos.x, posY, pos.z + 0.1f),
-                        Quaternion.identity);
-                    localScale -= new Vector3(1f,1f,1f);
-                    transform.localScale = localScale;
-                }
-                else
-                {
-                    
-                    AnimationController.Instance.ChangeAnimationState(State.Throw);
-                    var pos = transform.position;
-                    var localScale = transform.localScale;
-                    var posY = localScale.y / 2f;
-                    SpawnManager.Instance.SpawnBall("FireBalls",
-                        new Vector3(pos.x, posY, pos.z + 0.1f),
-                        Quaternion.identity);
-                    localScale -= new Vector3(1f,1f,1f);
-                    transform.localScale = localScale;
-                }
-                
-                if (gameObject.transform.localScale.x <= 1f && isFinish)
-                {
-                    CancelInvoke();
-                    //game finish
-                    // //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
-                }
-                
+            if (isGirlActive)
+            {
+                AnimationController.Instance.ChangeAnimationState(State.Throw);
+                var pos = transform.position;
+                var localScale = transform.localScale;
+                var posY = localScale.y / 2f;
+                SpawnManager.Instance.SpawnBall("WaterBalls",
+                    new Vector3(pos.x, posY, pos.z + 0.1f),
+                    Quaternion.identity);
+                localScale -= new Vector3(1f, 1f, 1f);
+                transform.localScale = localScale;
+            }
+            else
+            {
+                AnimationController.Instance.ChangeAnimationState(State.Throw);
+                var pos = transform.position;
+                var localScale = transform.localScale;
+                var posY = localScale.y / 2f;
+                SpawnManager.Instance.SpawnBall("FireBalls",
+                    new Vector3(pos.x, posY, pos.z + 0.1f),
+                    Quaternion.identity);
+                localScale -= new Vector3(1f, 1f, 1f);
+                transform.localScale = localScale;
+            }
+
+            if (gameObject.transform.localScale.x <= 1f && isFinish)
+            {
+                CancelInvoke();
+                //game finish
+                // //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
+            }
         }
+
+        
+
         private void ChangeGameStartState()
         {
             isGameStart = true;

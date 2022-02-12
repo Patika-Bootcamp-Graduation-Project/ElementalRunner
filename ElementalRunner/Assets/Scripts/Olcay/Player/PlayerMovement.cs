@@ -6,18 +6,16 @@ using UnityEngine;
 
 namespace Olcay.Player
 {
-    
     public class PlayerMovement : MonoBehaviour
     {
         private float speed = 5f;
         [SerializeField] private Transform floorPos;
-        private float fallCD = 0.2f;
         [SerializeField] private bool isGrounded;
         private float floorPosY => floorPos.position.z;
 
         private bool isFinish;
-        [SerializeField]private bool isLevelFinish;
-        
+        [SerializeField] private bool isLevelFinish;
+
         private bool isGameStart;
         public static event Action gameStarting;
 
@@ -26,6 +24,7 @@ namespace Olcay.Player
             Players.playerCollisionWithFinish += ChangeFinishState;
             Players.playerCollisionWithLevelFinish += ChangeLevelFinishState;
             Players.levelFailed += LevelFailed;
+            ScaleChanger.levelFailed += LevelFailed;
         }
 
         private void OnDestroy()
@@ -33,6 +32,7 @@ namespace Olcay.Player
             Players.playerCollisionWithFinish -= ChangeFinishState;
             Players.playerCollisionWithLevelFinish -= ChangeLevelFinishState;
             Players.levelFailed -= LevelFailed;
+            ScaleChanger.levelFailed -= LevelFailed;
         }
 
         private void Update()
@@ -42,20 +42,23 @@ namespace Olcay.Player
             {
                 return;
             }
+
             if (!isFinish)
             {
                 AnimationHandler();
             }
+
             if (isLevelFinish)
             {
                 return;
             }
+
             ForwardMovement();
             HandleInput();
             Fall();
         }
 
-         void HandleGameStart()
+        void HandleGameStart()
         {
             if (Input.GetMouseButtonUp(0) && !isFinish && Extentions.IsOverUi())
             {
@@ -64,15 +67,17 @@ namespace Olcay.Player
                 gameStarting?.Invoke();
             }
         }
+
         private void ForwardMovement()
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
         }
+
         private void HandleInput()
         {
             if (Input.GetMouseButton(0) && !isFinish && !Extentions.IsOverUi())
             {
-                AnimationController.Instance.ChangeAnimationState(State.Running);
+                //AnimationController.Instance.ChangeAnimationState(State.Running);
                 transform.position += Vector3.up * Time.deltaTime * 4f;
                 isGrounded = true;
             }
@@ -80,7 +85,6 @@ namespace Olcay.Player
             {
                 isGrounded = false;
             }
-            
         }
 
         private void Fall()
@@ -89,7 +93,7 @@ namespace Olcay.Player
             {
                 transform.position += Vector3.down * Time.deltaTime * +9.8f;
             }
-            else if (transform.position.y <= floorPosY )
+            else if (transform.position.y <= floorPosY)
             {
                 isGrounded = true;
             }
@@ -99,29 +103,29 @@ namespace Olcay.Player
         {
             isFinish = true;
         }
+
         private void ChangeLevelFinishState()
         {
             isLevelFinish = true;
         }
+
         private void LevelFailed()
         {
-            isFinish = true;
-            isLevelFinish = true;
+            ChangeFinishState();
+            ChangeLevelFinishState();
+            AnimationController.Instance.ChangeAnimationState(State.SweepFall);
         }
+
         private void AnimationHandler()
         {
-            if (isGrounded)
+            if (isGrounded && !isFinish)
             {
                 AnimationController.Instance.ChangeAnimationState(State.Running);
             }
-            else if (!isGrounded)
+            else if (!isGrounded && !isFinish)
             {
                 AnimationController.Instance.ChangeAnimationState(State.Falling);
             }
         }
-
-        
     }
-    
-   
 }
