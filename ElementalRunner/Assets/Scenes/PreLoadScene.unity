@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  level: 1
 --- !u!1 &1699384311
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ namespace Olcay.Player
         Color girlFog = new Color(0.4666667f, 0.8f, 0.7933347f, 1f);
         Color boyFog = new Color(0.8018868f, 0.4652457f, 0.4652457f, 1f);
 
-        [SerializeField] private Camera camera;
+        [SerializeField] private Camera camera=>Extentions.Camera;
 
         private void Awake()
         {
@@ -149,8 +149,8 @@ namespace Olcay.Player
 
                 girlPlayer.transform.position = Vector3.zero;
                 girlPlayer.SetActive(false);
-                isGirlActive = false;
-                playerChanged?.Invoke(isGirlActive);
+                this.isGirlActive = false;
+                playerChanged?.Invoke(this.isGirlActive);
             }
             else
             {
@@ -160,8 +160,8 @@ namespace Olcay.Player
 
                 boyPlayer.transform.position = Vector3.zero;
                 boyPlayer.SetActive(false);
-                isGirlActive = true;
-                playerChanged?.Invoke(isGirlActive);
+                this.isGirlActive = true;
+                playerChanged?.Invoke(this.isGirlActive);
             }
         }
 
@@ -223,6 +223,7 @@ namespace Olcay.Player
             if (gameObject.transform.localScale.x <= 1f && isFinish)
             {
                 CancelInvoke();
+                
                 //game finish
                 // //o anki basamağın üstündeki colliderdan alırız x kaç olduğunu
             }

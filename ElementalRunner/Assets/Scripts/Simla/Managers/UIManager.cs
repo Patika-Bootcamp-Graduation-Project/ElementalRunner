@@ -14,6 +14,8 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Awake()
     {
+        //loading ui true
+        //Invoke(InGame,2f);
         startUI.SetActive(true);
         inGameUI.SetActive(true);
         TextCurrentLevel();
