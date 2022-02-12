@@ -28,6 +28,7 @@ namespace Olcay.Managers
         {
             score += index;
             UIManager.Instance.InGameScore(score);
+            UIManager.Instance.FinishScore(score);
         }
 
         public void CurrentScoreAtFinish(int index)
@@ -48,7 +49,6 @@ namespace Olcay.Managers
             //timescale=0 and use this function with UI Manager next level button
             UIManager.Instance.Win();
             UIManager.Instance.BestScore();
-            UIManager.Instance.FinishScore(tempScore);
             tempScore = 0;
             score = 0;
             //LevelManager.Instance.PlayNextLevel();

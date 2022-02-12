@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -243,7 +243,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7184675873316870130, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7184675873412172445, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
@@ -381,6 +381,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7184675873962485606, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184675873962485607, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7184675873988175043, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -453,9 +461,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7184675875111917354, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7184675875111917355, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184675875111917357, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
+      propertyPath: m_text
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7184675875297658211, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
@@ -509,23 +525,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714268472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1262afcf883551f47bac760b92426a17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1714268474 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7184675873639573328, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
-  m_PrefabInstance: {fileID: 1714268467}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1714268475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1714268474}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1262afcf883551f47bac760b92426a17, type: 3}
