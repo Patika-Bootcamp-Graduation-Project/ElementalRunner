@@ -259,7 +259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7184675873316870130, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7184675873412172445, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
       propertyPath: m_IsActive
@@ -554,11 +554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1262afcf883551f47bac760b92426a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1714268474 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7184675874054736831, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
-  m_PrefabInstance: {fileID: 1714268467}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1714268476 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7184675873536792019, guid: 4e3695044a8db41488d4bcb3fd525ffa, type: 3}
@@ -603,7 +598,6 @@ MonoBehaviour:
   inGameUI: {fileID: 361970215}
   failUI: {fileID: 1840049580}
   winUI: {fileID: 996616640}
-  loadingUI: {fileID: 1714268474}
   inGameScoreTxt: {fileID: 11214628}
   bestScoreTxt: {fileID: 798060909}
   finishScoreTxt: {fileID: 2146525596}

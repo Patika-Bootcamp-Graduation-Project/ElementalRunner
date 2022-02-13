@@ -11,14 +11,22 @@ namespace Olcay.Managers
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            if (PlayerPrefs.GetInt("Level",1)+1< SceneManager.sceneCountInBuildSettings)
+            LoadLevel(1);
+            Invoke("LoadFirstScene", 3);
+            
+        }
+
+        private void LoadFirstScene()
+        {
+            if (PlayerPrefs.GetInt("Level", 1) + 1 < SceneManager.sceneCountInBuildSettings)
             {
-                LoadLevel(PlayerPrefs.GetInt("Level",1)+1);
+                LoadLevel(PlayerPrefs.GetInt("Level", 1) + 1);
             }
             else
             {
-                LoadLevel(SceneManager.sceneCountInBuildSettings-1);
+                LoadLevel(SceneManager.sceneCountInBuildSettings - 1);
             }
+            
         }
 
         private void LoadLevel(int index)

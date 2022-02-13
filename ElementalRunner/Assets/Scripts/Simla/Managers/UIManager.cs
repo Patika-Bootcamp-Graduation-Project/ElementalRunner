@@ -7,7 +7,6 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject inGameUI;
     [SerializeField] private GameObject failUI;
     [SerializeField] private GameObject winUI;
-    [SerializeField] private GameObject loadingUI;
     [SerializeField] private TextMeshProUGUI inGameScoreTxt;
     [SerializeField] private TextMeshProUGUI bestScoreTxt;
     [SerializeField] private TextMeshProUGUI finishScoreTxt;
@@ -16,20 +15,11 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Awake()
     {
-        loadingUI.SetActive(true);
-
-        Invoke("Loading", 2f);
-        
-        //Time.timeScale = 0f;
-    }
-
-    private void Loading()
-    {
-        loadingUI.SetActive(false);
         startUI.SetActive(true);
         inGameUI.SetActive(true);
         TextCurrentLevel();
     }
+
 
     public void StartGame()
     {
