@@ -1,1 +1,2 @@
 # ElementalRunner
+Oyunumuzun konseptine ateş ve su oyunundan esinlerek kararverdik. Oyunda ateş ve su olarak iki karakterimiz var. Eğer karalterimiz ateş ise ateş ile ilgili objeleri topluyoruz su iken su ile ilgili objeleri topluyoruz. Gatelerden geçince ise karakterimiz ateş  ise su su ise ateş oluyor. Oyun sonuna geldiğimizde karakter boyutuna göre top fırlatıyor. Her fırlatılan top karakterin boyutu küçülüyor. Fırlatılan topsayısının çarpanı kadar final puanımızla çarpıyoruz.
