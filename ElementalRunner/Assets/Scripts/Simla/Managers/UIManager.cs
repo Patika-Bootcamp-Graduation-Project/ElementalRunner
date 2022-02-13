@@ -66,6 +66,6 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void TextCurrentLevel()
     {
-        levelTxt.text = $"Level {PlayerPrefs.GetInt("Level")}";
+        levelTxt.text = $"Level {PlayerPrefs.GetInt("Level",1)}";
     }
 }

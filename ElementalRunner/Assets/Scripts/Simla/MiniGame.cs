@@ -11,7 +11,7 @@ namespace Simla
     public class MiniGame : MonoBehaviour
     {
         private int HP = 3;
-        private int ballCount = 0;
+        private int ballCount = 1;
         public static event Action LevelFinished;
 
         private void Awake()

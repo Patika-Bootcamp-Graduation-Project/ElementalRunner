@@ -239,6 +239,7 @@ namespace Olcay.Player
             CancelInvoke(nameof(ThrowABallRoutine));
             AnimationController.Instance.ChangeAnimationState(State.Dance);
             calculateFinishScore?.Invoke();
+            GameManager.Instance.Won();
         }
         private void ChangeGameStartState()
         {
