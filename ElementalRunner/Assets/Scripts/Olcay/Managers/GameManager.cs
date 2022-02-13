@@ -13,7 +13,7 @@ namespace Olcay.Managers
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            PlayerPrefs.SetInt("HighScore", score);
+            //PlayerPrefs.SetInt("HighScore", score);
             if (PlayerPrefs.GetInt("Level") < level)
             {
                 PlayerPrefs.SetInt("Level", level);
@@ -28,20 +28,21 @@ namespace Olcay.Managers
         {
             score += index;
             UIManager.Instance.InGameScore(score);
-            UIManager.Instance.FinishScore(score);
+            
         }
 
         public void CurrentScoreAtFinish(int index)
         {
             tempScore = score;
             score *= index;
-
-            if (score > PlayerPrefs.GetInt("HighScore", 0))
+            UIManager.Instance.FinishScore(score);
+            if (score > PlayerPrefs.GetInt("HighScore"))
             {
                 PlayerPrefs.SetInt("HighScore", score);
+                Won();
             } //UI Manager next level veya retry ile ilgili bir action
 
-            Won();
+            //Won();
         }
 
         public void Won()

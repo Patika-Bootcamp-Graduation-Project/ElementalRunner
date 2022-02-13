@@ -1089,6 +1089,7 @@ MonoBehaviour:
   girlPrefab: {fileID: 7570559934637340670, guid: d5b3bbe26ad9b0247b8452705ca03e6d, type: 3}
   isFinish: 0
   startScale: 0
+  ballCount: 1
 --- !u!54 &609845294
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1816,7 +1817,7 @@ Camera:
   m_GameObject: {fileID: 1833044463}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.6993749, g: 0.61521006, b: 0.745283, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2

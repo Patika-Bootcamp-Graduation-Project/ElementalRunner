@@ -10,8 +10,8 @@ namespace Simla
 {
     public class MiniGame : MonoBehaviour
     {
-        private int HP = 3;
-        private int ballCount = 1;
+       // private int HP = 3;
+        //private int ballCount = 1;
         public static event Action LevelFinished;
 
         private void Awake()
@@ -25,26 +25,27 @@ namespace Simla
         }
         
 
-        private void OnTriggerExit(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag.Equals("WaterBall") || other.gameObject.tag.Equals("FireBall"))
             {
                 other.gameObject.SetActive(false);
                 other.gameObject.transform.position = Vector3.zero;
-                HP -= 1;
-                ballCount++;
-                if (HP == 0)
+                //HP -= 1;
+                //ballCount++;
+                /*if (HP == 0)
                 {
-                    LevelFinished?.Invoke();
+                    
                     gameObject.SetActive(false);
-                }
+                }*/
             }
             
         }
 
-        private void GameFinishScore()
+        private void GameFinishScore(int ballCount)
         {
             GameManager.Instance.CurrentScoreAtFinish(ballCount);
+            LevelFinished?.Invoke();
         }
         
     }

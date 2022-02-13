@@ -197,12 +197,12 @@ MonoBehaviour:
   emptyPatternIndex: 1
   gatePatternIndex: 2
   miniGamePatternIndex: 4
-  collectablePatternCount: 15
-  gateStartPoint: 4
-  gateCount: 3
-  gateSpawnFrequency: 4
-  emptyPatternStartPoint: 3
-  emptyPatternSpawnFrequency: 3
+  collectablePatternCount: 8
+  gateStartPoint: 3
+  gateCount: 2
+  gateSpawnFrequency: 3
+  emptyPatternStartPoint: 2
+  emptyPatternSpawnFrequency: 2
 --- !u!1 &136445375
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +445,7 @@ Camera:
   m_GameObject: {fileID: 514186084}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.6993749, g: 0.61521006, b: 0.745283, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -503,7 +503,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545079302}
-  m_LocalRotation: {x: 0.25164324, y: -0.13494986, z: 0.035458803, w: 0.9577092}
+  m_LocalRotation: {x: 0.25164327, y: -0.13494991, z: 0.035458814, w: 0.9577092}
   m_LocalPosition: {x: 9.964084, y: 12.85, z: -10.125999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -639,6 +639,7 @@ MonoBehaviour:
   girlPrefab: {fileID: 7570559934637340670, guid: d5b3bbe26ad9b0247b8452705ca03e6d, type: 3}
   isFinish: 0
   startScale: 0
+  ballCount: 1
 --- !u!54 &609845294
 Rigidbody:
   m_ObjectHideFlags: 0
