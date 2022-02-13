@@ -26,7 +26,6 @@ namespace Olcay.Managers
         {
             score += index;
             UIManager.Instance.InGameScore(score);
-            
         }
 
         public void CurrentScoreAtFinish(int index)
@@ -36,14 +35,19 @@ namespace Olcay.Managers
             if (score > PlayerPrefs.GetInt("HighScore"))
             {
                 PlayerPrefs.SetInt("HighScore", score);
+
+                UIManager.Instance.FinishScore(score);
                 Won();
+
             } //UI Manager next level veya retry ile ilgili bir action
+
+            UIManager.Instance.FinishScore(score);
             Won();
         }
 
         public void Won()
         {
-            UIManager.Instance.FinishScore(score);
+            //UIManager.Instance.FinishScore(score);
             //timescale=0 and use this function with UI Manager next level button
             UIManager.Instance.Win();
             UIManager.Instance.BestScore();
