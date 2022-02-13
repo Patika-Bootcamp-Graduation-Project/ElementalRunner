@@ -123,6 +123,86 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &77443413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77443414}
+  - component: {fileID: 77443415}
+  m_Layer: 0
+  m_Name: LevelGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &77443414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77443413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 136445376}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &77443415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77443413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8309f3db40612ee408b904377e73dddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patterns:
+  - tag: Collectable
+    prefab:
+    - {fileID: 6977324743949431759, guid: c77c88c5f414f554193a915d62e3649e, type: 3}
+    - {fileID: 3849215291247159751, guid: 6749f2ac58f2f0640816c7391a85d8ab, type: 3}
+    - {fileID: 4765153355892925189, guid: b42b853c65e016f48964522d833e863c, type: 3}
+    - {fileID: 5653062651938972172, guid: c6445cef18935de4c96f25bda87610c4, type: 3}
+    - {fileID: 7386856686310925744, guid: ccdcdf80c7023fe459f341044e2a9ca6, type: 3}
+    - {fileID: 8399161147180417566, guid: a5249ee33042bb542abade30afc09236, type: 3}
+    - {fileID: 4868212730193826676, guid: ad761cd9252bf1d4083028eed3f67859, type: 3}
+  - tag: Empty
+    prefab:
+    - {fileID: 2859038377501942267, guid: c06895ad04044254389c3cdb9082c12f, type: 3}
+    - {fileID: 4446545766387394752, guid: 77563c9cf323c294b9513e23345d855a, type: 3}
+  - tag: Gate
+    prefab:
+    - {fileID: 8408382045906927590, guid: 389d3838561eab344bbaaf0e4a3442d9, type: 3}
+    - {fileID: 2074420856817804035, guid: 7824ae2997adba74e9d22f149b2f144a, type: 3}
+    - {fileID: 1070976532107959451, guid: 3d92638fd9955a940852b283fd03a04e, type: 3}
+    - {fileID: 1381481120412286824, guid: 84c3c42e1c211a644a42950e1b53993a, type: 3}
+  - tag: Start
+    prefab:
+    - {fileID: 7463545247892026080, guid: 6eb2119a47dffbc448019a5ceff286bf, type: 3}
+  - tag: MiniGame
+    prefab:
+    - {fileID: 7169197653431643788, guid: dfdefab9f1d208147a74c4076c076622, type: 3}
+  patternBase: {fileID: 643311251}
+  startPatternIndex: 3
+  emptyPatternIndex: 1
+  gatePatternIndex: 2
+  miniGamePatternIndex: 4
+  collectablePatternCount: 15
+  gateStartPoint: 4
+  gateCount: 3
+  gateSpawnFrequency: 4
+  emptyPatternStartPoint: 3
+  emptyPatternSpawnFrequency: 3
 --- !u!1 &136445375
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,6 +234,7 @@ Transform:
   - {fileID: 320011502}
   - {fileID: 1381508589}
   - {fileID: 1778043201}
+  - {fileID: 77443414}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
