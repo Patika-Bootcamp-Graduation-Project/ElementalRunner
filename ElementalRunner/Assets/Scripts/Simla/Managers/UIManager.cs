@@ -7,19 +7,28 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject inGameUI;
     [SerializeField] private GameObject failUI;
     [SerializeField] private GameObject winUI;
+    [SerializeField] private GameObject loadingUI;
     [SerializeField] private TextMeshProUGUI inGameScoreTxt;
     [SerializeField] private TextMeshProUGUI bestScoreTxt;
     [SerializeField] private TextMeshProUGUI finishScoreTxt;
     [SerializeField] private TextMeshProUGUI levelTxt;
 
+
     private void Awake()
     {
-        //loading ui true
-        //Invoke(InGame,2f);
+        loadingUI.SetActive(true);
+
+        Invoke("Loading", 2f);
+        
+        //Time.timeScale = 0f;
+    }
+
+    private void Loading()
+    {
+        loadingUI.SetActive(false);
         startUI.SetActive(true);
         inGameUI.SetActive(true);
         TextCurrentLevel();
-        //Time.timeScale = 0f;
     }
 
     public void StartGame()
