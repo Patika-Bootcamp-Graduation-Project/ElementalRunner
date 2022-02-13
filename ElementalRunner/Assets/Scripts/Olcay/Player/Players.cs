@@ -38,7 +38,7 @@ namespace Olcay.Player
 
         private Camera camera => Extentions.Camera;
 
-        [SerializeField]private int ballCount = 1;
+        [SerializeField] private int ballCount = 1;
 
         private void Awake()
         {
@@ -103,6 +103,7 @@ namespace Olcay.Player
                 //camera.backgroundColor = boyFog;
             }
         }
+
         #region StairsGenerateAndSetActiveFalse
 
         private void GenerateStairs()
@@ -185,6 +186,7 @@ namespace Olcay.Player
                 this.isGirlActive = true;
                 playerChanged?.Invoke(this.isGirlActive);
             }
+
             ChangeFog();
         }
 
@@ -192,7 +194,7 @@ namespace Olcay.Player
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.CompareTag("Finish") && ballCount<=4)
+            if (other.gameObject.CompareTag("Finish"))
             {
                 isFinish = true;
                 playerCollisionWithFinish?.Invoke();
@@ -219,7 +221,7 @@ namespace Olcay.Player
 
         private void ThrowABallRoutine()
         {
-            
+            ballCount++;
             AnimationController.Instance.ChangeAnimationState(State.Throw);
             if (isGirlActive)
             {
@@ -232,7 +234,6 @@ namespace Olcay.Player
                     Quaternion.identity);
                 localScale -= new Vector3(0.25f, 0.25f, 0.25f);
                 transform.localScale = localScale;
-                ballCount++;
             }
             else
             {
@@ -245,12 +246,12 @@ namespace Olcay.Player
                     Quaternion.identity);
                 localScale -= new Vector3(0.25f, 0.25f, 0.25f);
                 transform.localScale = localScale;
-                ballCount++;
             }
 
-            if (isFinish && gameObject.transform.localScale.x <= 1f)
+            if (isFinish && gameObject.transform.localScale.x <= 1f || ballCount >= 4)
             {
                 //win vercek dans etcek
+                CancelInvoke(nameof(ThrowABallRoutine));
                 LevelCompleted();
             }
         }
@@ -259,11 +260,11 @@ namespace Olcay.Player
         private void LevelCompleted()
         {
             playerCollisionWithLevelFinish?.Invoke();
-            CancelInvoke(nameof(ThrowABallRoutine));
             AnimationController.Instance.ChangeAnimationState(State.Dance);
             calculateFinishScore?.Invoke(ballCount);
-            ballCount = 0;
             GameManager.Instance.Won();
+            ballCount = 0;
+            
         }
 
         private void ChangeGameStartState()

@@ -22,6 +22,7 @@ public class CameraHandler : MonoBehaviour
     private void OnDestroy()
     {
         PlayerMovement.gameStarting -= StartCameraFalse;
+        Players.playerCollisionWithLevelFinish -= StartCameraTrue;
         MiniGame.LevelFinished -= StartCameraTrue;
         Players.levelFailed -= StartCameraTrue;
         ScaleChanger.levelFailed -= StartCameraTrue;

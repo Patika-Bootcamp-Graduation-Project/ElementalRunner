@@ -23,23 +23,15 @@ namespace Simla
         {
             Players.calculateFinishScore -= GameFinishScore;
         }
-        
+
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag.Equals("WaterBall") || other.gameObject.tag.Equals("FireBall"))
             {
-                other.gameObject.SetActive(false);
                 other.gameObject.transform.position = Vector3.zero;
-                //HP -= 1;
-                //ballCount++;
-                /*if (HP == 0)
-                {
-                    
-                    gameObject.SetActive(false);
-                }*/
+                other.gameObject.SetActive(false);
             }
-            
         }
 
         private void GameFinishScore(int ballCount)

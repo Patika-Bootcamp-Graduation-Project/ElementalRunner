@@ -51,7 +51,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void BestScore()
     {
-        bestScoreTxt.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
+        bestScoreTxt.text = PlayerPrefs.GetInt("HighScore").ToString();
     }
 
     public void TextCurrentLevel()
