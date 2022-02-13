@@ -7,13 +7,11 @@ namespace Olcay.Managers
     {
         [SerializeField] private int score = 0;
         [SerializeField] private int level = 1;
-        private int tempHighScore = 0;
         private string levelValue;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            tempHighScore=PlayerPrefs.GetInt("HighScore");
             if (PlayerPrefs.GetInt("Level") < level)
             {
                 PlayerPrefs.SetInt("Level", level);
@@ -35,30 +33,26 @@ namespace Olcay.Managers
         {
             score *= index;
             
-            if (score > tempHighScore)
+            if (score > PlayerPrefs.GetInt("HighScore"))
             {
                 PlayerPrefs.SetInt("HighScore", score);
-                tempHighScore = 0;
                 Won();
             } //UI Manager next level veya retry ile ilgili bir action
-            //Won();
+            Won();
         }
 
         public void Won()
         {
-            
             UIManager.Instance.FinishScore(score);
             //timescale=0 and use this function with UI Manager next level button
             UIManager.Instance.Win();
             UIManager.Instance.BestScore();
-            tempHighScore=PlayerPrefs.GetInt("HighScore");
             score = 0;
             //LevelManager.Instance.PlayNextLevel();
         }
 
         public void Failed()
         {
-            tempHighScore=PlayerPrefs.GetInt("HighScore");
             score = 0;
             //timescale=0 and use this function with UI Manager retry button
             UIManager.Instance.Fail();
@@ -69,7 +63,6 @@ namespace Olcay.Managers
         {
             //Time.timeScale = 1f;
             UIManager.Instance.StartGame();
-            tempHighScore=PlayerPrefs.GetInt("HighScore");
             score = 0;
         }
 

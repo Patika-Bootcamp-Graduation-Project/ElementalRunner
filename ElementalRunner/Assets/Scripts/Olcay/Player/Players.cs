@@ -222,10 +222,9 @@ namespace Olcay.Player
         private void ThrowABallRoutine()
         {
             ballCount++;
-            AnimationController.Instance.ChangeAnimationState(State.Throw);
             if (isGirlActive)
             {
-                //AnimationController.Instance.ChangeAnimationState(State.Throw);
+                AnimationController.Instance.ChangeAnimationState(State.Throw);
                 var pos = transform.position;
                 var localScale = transform.localScale;
                 var posY = localScale.y / 2f;
@@ -237,7 +236,7 @@ namespace Olcay.Player
             }
             else
             {
-                //AnimationController.Instance.ChangeAnimationState(State.Throw);
+                AnimationController.Instance.ChangeAnimationState(State.Throw);
                 var pos = transform.position;
                 var localScale = transform.localScale;
                 var posY = localScale.y / 2f;
@@ -251,7 +250,7 @@ namespace Olcay.Player
             if (isFinish && gameObject.transform.localScale.x <= 1f || ballCount >= 4)
             {
                 //win vercek dans etcek
-                CancelInvoke(nameof(ThrowABallRoutine));
+                
                 LevelCompleted();
             }
         }
@@ -259,6 +258,7 @@ namespace Olcay.Player
 
         private void LevelCompleted()
         {
+            CancelInvoke(nameof(ThrowABallRoutine));
             playerCollisionWithLevelFinish?.Invoke();
             AnimationController.Instance.ChangeAnimationState(State.Dance);
             calculateFinishScore?.Invoke(ballCount);
