@@ -40,6 +40,8 @@ namespace Olcay.Player
 
         private void Awake()
         {
+            RenderSettings.fog = true;
+
             girlPlayer = Instantiate(girlPrefab, transform.position, transform.rotation);
             girlPlayer.transform.parent = this.gameObject.transform;
             //isGirlActive = true;
