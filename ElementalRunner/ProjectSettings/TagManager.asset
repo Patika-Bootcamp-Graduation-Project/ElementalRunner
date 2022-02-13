@@ -11,6 +11,7 @@ TagManager:
   - WaterBall
   - LevelFinish
   - Dance
+  - MiniGame
   layers:
   - Default
   - TransparentFX

@@ -191,7 +191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 574428089866821814, guid: b27cd1e6b2d09534d941319e361c5568, type: 3}
       propertyPath: m_TagString
-      value: Finish
+      value: MiniGame
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8677692828864554468, guid: b27cd1e6b2d09534d941319e361c5568, type: 3}
