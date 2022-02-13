@@ -12,7 +12,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private TextMeshProUGUI finishScoreTxt;
     [SerializeField] private TextMeshProUGUI levelTxt;
 
-
+    private int score;
     private void Awake()
     {
         startUI.SetActive(true);
@@ -41,7 +41,9 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void InGameScore(int score)
     {
-        inGameScoreTxt.text = score.ToString();
+        this.score = score;
+        inGameScoreTxt.text = this.score.ToString();
+        this.score = 0;
     }
 
     public void FinishScore(int score)

@@ -250,7 +250,7 @@ namespace Olcay.Player
             if (isFinish && gameObject.transform.localScale.x <= 1f || ballCount >= 4)
             {
                 //win vercek dans etcek
-                
+                CancelInvoke(nameof(ThrowABallRoutine));
                 LevelCompleted();
             }
         }
@@ -258,13 +258,11 @@ namespace Olcay.Player
 
         private void LevelCompleted()
         {
-            CancelInvoke(nameof(ThrowABallRoutine));
             playerCollisionWithLevelFinish?.Invoke();
             AnimationController.Instance.ChangeAnimationState(State.Dance);
             calculateFinishScore?.Invoke(ballCount);
-            GameManager.Instance.Won();
+            //GameManager.Instance.Won();
             ballCount = 0;
-            
         }
 
         private void ChangeGameStartState()

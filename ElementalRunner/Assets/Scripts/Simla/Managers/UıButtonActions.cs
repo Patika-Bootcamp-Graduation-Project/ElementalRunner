@@ -14,7 +14,7 @@ public class UıButtonActions : MonoBehaviour
     public void PlayCurrentLevelAgain()
     {
         LevelManager.Instance.PlayCurrentLevel();
-        GameManager.Instance.StartThisLevel();
+        //GameManager.Instance.StartThisLevel();
     }
 
     public void PlayNextLevel()

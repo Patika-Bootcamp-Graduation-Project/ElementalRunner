@@ -627,10 +627,10 @@ MonoBehaviour:
   pools:
   - tag: WaterStairs
     prefab: {fileID: 4969904726297783139, guid: c8344d097ce94ec49a221a7551b92895, type: 3}
-    size: 4
+    size: 15
   - tag: FireStairs
     prefab: {fileID: 1491528699458329592, guid: c609efc367230f143abc78ebd9cd7bbc, type: 3}
-    size: 4
+    size: 15
   - tag: WaterBalls
     prefab: {fileID: 1253142483436318, guid: 7879670360d519944ab4914eca80539d, type: 3}
     size: 3

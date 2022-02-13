@@ -37,7 +37,7 @@ namespace Simla
         private void GameFinishScore(int ballCount)
         {
             GameManager.Instance.CurrentScoreAtFinish(ballCount);
-            LevelFinished?.Invoke();
+            //LevelFinished?.Invoke();
         }
         
     }
