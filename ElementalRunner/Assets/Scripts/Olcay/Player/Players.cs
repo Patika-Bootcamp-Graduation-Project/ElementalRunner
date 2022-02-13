@@ -28,7 +28,7 @@ namespace Olcay.Player
         public static event Action<bool> playerChanged; //Observer
         public static event Action playerCollisionWithFinish;
         public static event Action playerCollisionWithLevelFinish;
-        public static event Action calculateFinishScore;
+        public static event Action<int> calculateFinishScore;
 
         public static event Action levelFailed;
         //public static event Action<bool,Vector3> playerSetUp;
@@ -36,7 +36,9 @@ namespace Olcay.Player
         Color girlFog = new Color(0.4666667f, 0.8f, 0.7933347f, 1f);
         Color boyFog = new Color(0.8018868f, 0.4652457f, 0.4652457f, 1f);
 
-        private Camera camera=>Extentions.Camera;
+        private Camera camera => Extentions.Camera;
+
+        [SerializeField]private int ballCount = 1;
 
         private void Awake()
         {
@@ -45,13 +47,13 @@ namespace Olcay.Player
             girlPlayer = Instantiate(girlPrefab, transform.position, transform.rotation);
             girlPlayer.transform.parent = this.gameObject.transform;
             //isGirlActive = true;
-            
+
 
             boyPlayer = Instantiate(boyPrefab, transform.position, transform.rotation);
             boyPlayer.transform.parent = this.gameObject.transform;
             //boyPlayer.SetActive(false);
-            isGirlActive = Random.value<0.5f;
-            if (isGirlActive)
+            isGirlActive = Random.value < 0.5f;
+            /*if (isGirlActive)
             {
                 boyPlayer.SetActive(false);
                 RenderSettings.fogColor = girlFog;
@@ -62,10 +64,11 @@ namespace Olcay.Player
                 girlPlayer.SetActive(false);
                 RenderSettings.fogColor = boyFog;
                 camera.backgroundColor = boyFog;
-            }
-            
+            }*/
+
             playerChanged?.Invoke(isGirlActive);
-            
+            ChangeFog();
+
             //SwapCurrentPlayer(isGirlActive);
             //startScale = gameObject.transform.localScale.x;
 
@@ -85,7 +88,21 @@ namespace Olcay.Player
             StopAllCoroutines();
         }
 
-
+        private void ChangeFog()
+        {
+            if (isGirlActive)
+            {
+                boyPlayer.SetActive(false);
+                RenderSettings.fogColor = girlFog;
+                //camera.backgroundColor = girlFog;
+            }
+            else
+            {
+                girlPlayer.SetActive(false);
+                RenderSettings.fogColor = boyFog;
+                //camera.backgroundColor = boyFog;
+            }
+        }
         #region StairsGenerateAndSetActiveFalse
 
         private void GenerateStairs()
@@ -113,8 +130,8 @@ namespace Olcay.Player
                     }
 
                     transform.localScale -=
-                        new Vector3(0.05f, 0.05f,
-                            0.05f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
+                        new Vector3(0.03f, 0.03f,
+                            0.03f); //every stair will decrease players scale 0.05 or we can change this value with Gamesettings
                     if (gameObject.transform.localScale.x < 1f) //fail olmasın zıplayamasın.
                     {
                         FailDetection();
@@ -168,13 +185,14 @@ namespace Olcay.Player
                 this.isGirlActive = true;
                 playerChanged?.Invoke(this.isGirlActive);
             }
+            ChangeFog();
         }
 
         #endregion
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.CompareTag("Finish"))
+            if (other.gameObject.CompareTag("Finish") && ballCount<=4)
             {
                 isFinish = true;
                 playerCollisionWithFinish?.Invoke();
@@ -191,6 +209,7 @@ namespace Olcay.Player
                 calculateFinishScore?.Invoke();
             }*/
         }
+
         private void FailDetection()
         {
             isFinish = true;
@@ -200,32 +219,36 @@ namespace Olcay.Player
 
         private void ThrowABallRoutine()
         {
+            
+            AnimationController.Instance.ChangeAnimationState(State.Throw);
             if (isGirlActive)
             {
-                AnimationController.Instance.ChangeAnimationState(State.Throw);
+                //AnimationController.Instance.ChangeAnimationState(State.Throw);
                 var pos = transform.position;
                 var localScale = transform.localScale;
                 var posY = localScale.y / 2f;
                 SpawnManager.Instance.SpawnBall("WaterBalls",
                     new Vector3(pos.x, posY, pos.z + 0.1f),
                     Quaternion.identity);
-                localScale -= new Vector3(1f, 1f, 1f);
+                localScale -= new Vector3(0.25f, 0.25f, 0.25f);
                 transform.localScale = localScale;
+                ballCount++;
             }
             else
             {
-                AnimationController.Instance.ChangeAnimationState(State.Throw);
+                //AnimationController.Instance.ChangeAnimationState(State.Throw);
                 var pos = transform.position;
                 var localScale = transform.localScale;
                 var posY = localScale.y / 2f;
                 SpawnManager.Instance.SpawnBall("FireBalls",
                     new Vector3(pos.x, posY, pos.z + 0.1f),
                     Quaternion.identity);
-                localScale -= new Vector3(1f, 1f, 1f);
+                localScale -= new Vector3(0.25f, 0.25f, 0.25f);
                 transform.localScale = localScale;
+                ballCount++;
             }
 
-            if (gameObject.transform.localScale.x <= 1f && isFinish)
+            if (isFinish && gameObject.transform.localScale.x <= 1f)
             {
                 //win vercek dans etcek
                 LevelCompleted();
@@ -238,9 +261,11 @@ namespace Olcay.Player
             playerCollisionWithLevelFinish?.Invoke();
             CancelInvoke(nameof(ThrowABallRoutine));
             AnimationController.Instance.ChangeAnimationState(State.Dance);
-            calculateFinishScore?.Invoke();
+            calculateFinishScore?.Invoke(ballCount);
+            ballCount = 0;
             GameManager.Instance.Won();
         }
+
         private void ChangeGameStartState()
         {
             isGameStart = true;

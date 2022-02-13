@@ -31,24 +31,24 @@ public class ScaleChanger : MonoBehaviour
         switch (tag)
         {
             case "Water" when isGirlActive:
-                transform.localScale += new Vector3(0.2f,0.2f,0.2f);
+                transform.localScale += new Vector3(0.1f,0.1f,0.1f);
                 //score += 10;
                 GameManager.Instance.ChangeScore(+10);
                 break;
             case "Fire" when isGirlActive:
-                transform.localScale -= new Vector3(0.2f,0.2f,0.2f);
+                transform.localScale -= new Vector3(0.1f,0.1f,0.1f);
                 //score -= 10;
-                GameManager.Instance.ChangeScore(-10);
+                GameManager.Instance.ChangeScore(-5);
                 break;
             case "Fire" when !isGirlActive:
-                transform.localScale += new Vector3(0.2f,0.2f,0.2f);
+                transform.localScale += new Vector3(0.1f,0.1f,0.1f);
                 //score += 10;
                 GameManager.Instance.ChangeScore(+10);
                 break;
             case "Water" when !isGirlActive:
-                transform.localScale -= new Vector3(0.2f,0.2f,0.2f);
+                transform.localScale -= new Vector3(0.1f,0.1f,0.1f);
                 //score -= 10;
-                GameManager.Instance.ChangeScore(-10);
+                GameManager.Instance.ChangeScore(-5);
                 break;
         }
 
